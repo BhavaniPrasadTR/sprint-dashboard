@@ -1,7 +1,7 @@
 """
 fetch_data.py
 Runs daily via GitHub Action.
-Queries Power BI REST API → writes src/data.json
+Queries Power BI REST API → writes public/data.json
 """
 
 import os
@@ -61,7 +61,8 @@ def fetch_all():
             "LeadP50",       [Median Lead Time (days)],
             "WIP",           [WIP Count],
             "UserStories",   [User Story Count],
-            "BugsClosed",    [Bugs Closed]
+            "BugsClosed",    [Bugs Closed],
+            "Predictability",[Predictability Index]
         )
         ORDER BY Dim_Iteration[SprintNumber]
     """)
@@ -88,6 +89,7 @@ def fetch_all():
             "bugs": int(row.get("[Bugs]", 0) or 0),
             "dd":   round(row.get("[DefectDensity]", 0) or 0, 4),
             "cr":   round(row.get("[CompRate]", 0) or 0, 4),
+            "pi":   round(row.get("[Predictability]", 0) or 0, 4),
             "cy":   round(row.get("[CycleP50]", 0) or 0, 2),
             "ld":   round(row.get("[LeadP50]", 0) or 0, 2),
             "wip":  int(row.get("[WIP]", 0) or 0),
@@ -161,10 +163,10 @@ def fetch_all():
     """)
 
     team_colors = {
-        "Falcons": "#6366F1",
-        "Titans":  "#06B6D4",
-        "Dragons": "#F59E0B",
-        "Spartans":"#10B981"
+        "Falcons": "#1D4ED8",
+        "Titans":  "#7C3AED",
+        "Dragons": "#0891B2",
+        "Spartans":"#059669"
     }
 
     teams = []
@@ -199,8 +201,7 @@ def fetch_all():
             "Items",           [Total Items],
             "L5Avg",           [Rolling Avg Velocity (L5)],
             "AvgSP",           [Avg SP per Item],
-            "UserStories",     [User Story Count],
-            "RemainingDays",   [Remaining Working Days]
+            "UserStories",     [User Story Count]
         )
     """)
 
@@ -219,7 +220,6 @@ def fetch_all():
             "l5":        round(r.get("[L5Avg]", 0) or 0, 1),
             "avgSP":     round(r.get("[AvgSP]", 0) or 0, 2),
             "us":        int(r.get("[UserStories]", 0) or 0),
-            "daysLeft":  int(r.get("[RemainingDays]", 0) or 0),
         }
 
     return {
@@ -234,8 +234,9 @@ def fetch_all():
 if __name__ == "__main__":
     data = fetch_all()
 
-    # Write to src/data.json
-    output_path = os.path.join(os.path.dirname(__file__), "src", "data.json")
+    # Write to public/data.json (React serves static files from public/)
+    output_path = os.path.join(os.path.dirname(__file__), "public", "data.json")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w") as f:
         json.dump(data, f, indent=2)
 
