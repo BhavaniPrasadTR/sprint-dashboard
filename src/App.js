@@ -5,37 +5,84 @@ import {
   ReferenceLine, Cell, Legend
 } from "recharts";
 
-// ── DESIGN SYSTEM ─────────────────────────────────────────────────────────────
+// ── THEME CSS — injected into <style> and toggled via data-theme on <html> ─────
+const THEME_CSS = `
+  :root[data-theme="dark"] {
+    --bg:      #0A0E1A; --surface: #111827; --surfaceM:#1A2235;
+    --border:  #1F2D45; --text:    #F0F4FF; --muted:   #6B7FA8; --dim:#3A4A6B;
+    --tab-inactive:#6B7FA8; --tab-active:#818CF8; --tab-border:#818CF8;
+    --nav-bg:  #111827; --nav-border:#1F2D45;
+    --committed-bar:#1F2D45;
+    --hero-bg: linear-gradient(135deg,#0F1535 0%,#1A0B2E 100%);
+    --tt-bg:   #1A2235; --tt-text:#F0F4FF; --tt-muted:#6B7FA8; --tt-border:#1F2D45;
+    --grid:    #1F2D45; --axis:    #6B7FA8;
+    --toggle-track:#4F46E5;
+  }
+  :root[data-theme="light"] {
+    --bg:      #F4F6FA; --surface: #FFFFFF; --surfaceM:#F0F4FB;
+    --border:  #DDE5F4; --text:    #0A0F1E; --muted:   #111827; --dim:#A0AEC0;
+    --tab-inactive:#111827; --tab-active:#1D4ED8; --tab-border:#1D4ED8;
+    --nav-bg:  #FFFFFF; --nav-border:#DDE5F4;
+    --committed-bar:#DDE5F4;
+    --hero-bg: linear-gradient(135deg,#1E3A8A 0%,#1E1B4B 60%,#312E81 100%);
+    --tt-bg:   #FFFFFF; --tt-text:#0A0F1E; --tt-muted:#374151; --tt-border:#DDE5F4;
+    --grid:    #E8EFF8; --axis:    #64748B;
+    --toggle-track:#CBD5E1;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; transition:background .25s; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  @keyframes spin  { to { transform:rotate(360deg); } }
+`;
+
+// ── ACCENT COLOURS — solid hex, readable in both themes ───────────────────────
 const C = {
-  bg:      "#0A0E1A",
-  surface: "#111827",
-  surfaceM:"#1A2235",
-  border:  "#1F2D45",
-  text:    "#F0F4FF",
-  muted:   "#6B7FA8",
-  dim:     "#3A4A6B",
-  violet:  "#818CF8",
-  violetD: "#4F46E5",
-  cyan:    "#22D3EE",
-  cyanD:   "#0891B2",
-  amber:   "#FBBF24",
-  emerald: "#34D399",
-  emeraldD:"#059669",
-  rose:    "#F87171",
-  roseD:   "#DC2626",
-  sky:     "#38BDF8",
+  // Layout (use CSS vars in JSX via "var(--xxx)")
+  bg:      "var(--bg)",      surface: "var(--surface)", surfaceM:"var(--surfaceM)",
+  border:  "var(--border)",  text:    "var(--text)",     muted:   "var(--muted)",
+  dim:     "var(--dim)",
+  // Accents — solid values used directly in recharts (can't read CSS vars from SVG)
+  violet:  "#1D4ED8",  violetD: "#1D4ED8",
+  cyan:    "#0891B2",  cyanD:   "#0891B2",
+  amber:   "#D97706",
+  emerald: "#059669",  emeraldD:"#059669",
+  rose:    "#DC2626",  roseD:   "#DC2626",
+  sky:     "#0284C7",
+  // Chart committed-bar colour function (needs isDark context)
+  committedBar: (isDark) => isDark ? "#1F2D45" : "#DDE5F4",
 };
+
+// Theme-aware tooltip style for recharts (SVG can't read CSS vars)
+function getTT(isDark) {
+  return {
+    contentStyle:{
+      background:  isDark ? "#1C2A42" : "#FFFFFF",
+      border:      `1px solid ${isDark ? "#2D4060" : "#C8D5EC"}`,
+      borderRadius:10, fontSize:12,
+      color:       isDark ? "#F0F4FF" : "#0A0F1E",
+      boxShadow:   isDark ? "0 8px 24px rgba(0,0,0,.5)" : "0 8px 24px rgba(0,0,0,.12)",
+      padding:     "10px 14px", minWidth:160
+    },
+    labelStyle:{ color: isDark ? "#94A3B8" : "#374151", fontWeight:700, marginBottom:6, fontSize:11 },
+    itemStyle:{ color: isDark ? "#F0F4FF" : "#0A0F1E", fontWeight:600 },
+    cursor:{ stroke: isDark ? "#2D4060" : "#C8D5EC", strokeWidth:1 }
+  };
+}
+
+// Theme-aware grid/axis colours for recharts
+function getGA(isDark) {
+  return {
+    grid: isDark ? "#1F2D45" : "#E8EFF8",
+    axis: isDark ? "#6B7FA8" : "#64748B",
+  };
+}
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
 const f0  = n => (n == null || n === "") ? "—" : Math.round(Number(n)).toLocaleString();
 const f1  = n => (n == null || n === "") ? "—" : Number(n).toFixed(1);
 const pct = n => (n == null || n === "") ? "—" : `${(Number(n) * 100).toFixed(1)}%`;
 const QUAL= n => n < 0.25 ? C.emerald : n < 0.4 ? C.amber : C.rose;
-const tt  = {
-  contentStyle:{ background:C.surfaceM, border:`1px solid ${C.border}`, borderRadius:8, fontSize:11, color:C.text },
-  labelStyle:{ color:C.muted },
-  cursor:{ stroke:C.border }
-};
+// tt is now getTT(isDark) — see above
 
 // ── SHARED COMPONENTS ─────────────────────────────────────────────────────────
 function Card({ children, style, glow }) {
@@ -77,7 +124,7 @@ function Pill({ label, color }) {
 function Bar2({ val, total, color, h=6 }) {
   const w = total > 0 ? Math.min(100, val/total*100) : 0;
   return (
-    <div style={{ height:h, background:C.dim+"44", borderRadius:h, overflow:"hidden" }}>
+    <div style={{ height:h, background:"var(--border)", borderRadius:h, overflow:"hidden" }}>
       <div style={{ width:`${w}%`, height:"100%", background:color, borderRadius:h, transition:"width .6s ease" }} />
     </div>
   );
@@ -113,6 +160,100 @@ function ErrorScreen({ message }) {
   );
 }
 
+
+// ── THEME TOGGLE ──────────────────────────────────────────────────────────────
+function ThemeToggle({ isDark, onToggle }) {
+  return (
+    <button onClick={onToggle} title={isDark?"Switch to light mode":"Switch to dark mode"}
+      style={{ display:"flex", alignItems:"center", gap:8,
+        background:"transparent", border:"1px solid var(--border)",
+        borderRadius:22, padding:"5px 12px", cursor:"pointer",
+        color:"var(--text)", fontSize:11, fontWeight:600,
+        transition:"all .2s", fontFamily:"inherit" }}>
+      <div style={{ width:32, height:17, borderRadius:9,
+        background: isDark?"#4F46E5":"#CBD5E1",
+        position:"relative", transition:"background .25s", flexShrink:0 }}>
+        <div style={{ position:"absolute", top:2,
+          left: isDark?17:2, width:13, height:13,
+          borderRadius:"50%", background:"#fff",
+          transition:"left .25s", boxShadow:"0 1px 3px rgba(0,0,0,.3)" }} />
+      </div>
+      <span>{isDark?"🌙 Dark":"☀️ Light"}</span>
+    </button>
+  );
+}
+// ── CUSTOM TOOLTIP COMPONENTS ────────────────────────────────────────────────
+function VelocityTooltip({ active, payload, label, isDark }) {
+  if (!active || !payload || !payload.length) return null;
+  const bg      = isDark ? "#1C2A42" : "#FFFFFF";
+  const border  = isDark ? "#2D4060" : "#C8D5EC";
+  const textCol = isDark ? "#F0F4FF" : "#0A0F1E";
+  const mutedCol= isDark ? "#94A3B8" : "#6B7280";
+  const dotCol  = (name) => name === "Committed SP"
+    ? (isDark ? "#4A6090" : "#94A3B8")  // readable dot for committed
+    : null;
+  return (
+    <div style={{ background:bg, border:`1px solid ${border}`, borderRadius:10,
+      padding:"10px 14px", minWidth:170,
+      boxShadow:isDark?"0 8px 24px rgba(0,0,0,.5)":"0 8px 24px rgba(0,0,0,.12)",
+      fontSize:12 }}>
+      <div style={{ color:mutedCol, fontWeight:700, marginBottom:8, fontSize:11 }}>
+        Sprint {label}
+      </div>
+      {payload.map((entry, i) => (
+        <div key={i} style={{ display:"flex", justifyContent:"space-between",
+          alignItems:"center", gap:24, marginBottom:i<payload.length-1?5:0 }}>
+          <div style={{ display:"flex", alignItems:"center", gap:7 }}>
+            <div style={{ width:10, height:10, borderRadius:2,
+              background:dotCol(entry.name)||entry.color, flexShrink:0 }} />
+            <span style={{ color:mutedCol, fontWeight:500 }}>{entry.name}</span>
+          </div>
+          <span style={{ color:textCol, fontWeight:700 }}>
+            {Number(entry.value).toLocaleString()} SP
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function DefectTooltip({ active, payload, label, isDark }) {
+  if (!active || !payload || !payload.length) return null;
+  const bg      = isDark ? "#1C2A42" : "#FFFFFF";
+  const border  = isDark ? "#2D4060" : "#C8D5EC";
+  const textCol = isDark ? "#F0F4FF" : "#0A0F1E";
+  const mutedCol= isDark ? "#94A3B8" : "#6B7280";
+  return (
+    <div style={{ background:bg, border:`1px solid ${border}`, borderRadius:10,
+      padding:"10px 14px", minWidth:185,
+      boxShadow:isDark?"0 8px 24px rgba(0,0,0,.5)":"0 8px 24px rgba(0,0,0,.12)",
+      fontSize:12 }}>
+      <div style={{ color:mutedCol, fontWeight:700, marginBottom:8, fontSize:11 }}>
+        Sprint {label}
+      </div>
+      {payload.map((entry, i) => {
+        const isBug = entry.name === "Bug count";
+        const val   = isBug ? `${entry.value} bugs` : `${Number(entry.value).toFixed(1)}%`;
+        const dd    = entry.payload && entry.payload.dd;
+        const dot   = isBug
+          ? (dd < 0.25 ? "#059669" : dd < 0.4 ? "#D97706" : "#DC2626")
+          : (isDark ? "#94A3B8" : "#475569");
+        return (
+          <div key={i} style={{ display:"flex", justifyContent:"space-between",
+            alignItems:"center", gap:24, marginBottom:i<payload.length-1?5:0 }}>
+            <div style={{ display:"flex", alignItems:"center", gap:7 }}>
+              <div style={{ width:10, height:10, borderRadius:isBug?2:10,
+                background:dot, flexShrink:0 }} />
+              <span style={{ color:mutedCol, fontWeight:500 }}>{entry.name}</span>
+            </div>
+            <span style={{ color:textCol, fontWeight:700 }}>{val}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 // ── TABS ──────────────────────────────────────────────────────────────────────
 const TABS = [
   { id:"overview", icon:"◎", label:"Overview"  },
@@ -123,7 +264,9 @@ const TABS = [
 ];
 
 // ── PAGE: OVERVIEW ────────────────────────────────────────────────────────────
-function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL }) {
+function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL, isDark }) {
+  const tt = getTT(isDark);
+  const ga = getGA(isDark);
   const s12    = SPRINTS[SPRINTS.length - 1];
   const s11    = SPRINTS[SPRINTS.length - 2] || s12;
   const vTrend = s11.vel ? (s12.vel - s11.vel) / s11.vel : 0;
@@ -131,7 +274,7 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL }) {
 
   const velData = SPRINTS.map(s => ({
     name: s.id, vel: Math.round(s.vel), comm: Math.round(s.comm),
-    fill: s.cr >= 1 ? C.emerald : C.violet
+    fill: s.cr >= 1 ? "#059669" : "#1D4ED8"
   }));
 
   return (
@@ -146,8 +289,8 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL }) {
               Live · {CURRENT.daysLeft} days remaining
             </span>
           </div>
-          <div style={{ fontSize:26, fontWeight:900, color:C.text, letterSpacing:"-1px", marginBottom:4 }}>EngagementManager · 2026</div>
-          <div style={{ fontSize:13, color:C.muted }}>Sprint KPI Dashboard · User Stories & Bugs · 4 Teams</div>
+          <div style={{ fontSize:26, fontWeight:900, color:"#fff", letterSpacing:"-1px", marginBottom:4 }}>EngagementManager · 2026</div>
+          <div style={{ fontSize:13, color:"rgba(255,255,255,0.6)" }}>Sprint KPI Dashboard · User Stories & Bugs · 4 Teams</div>
         </div>
         <div style={{ display:"flex", gap:32, flexWrap:"wrap", position:"relative" }}>
           {[
@@ -158,7 +301,7 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL }) {
           ].map(({ l, v, c }) => (
             <div key={l} style={{ textAlign:"center" }}>
               <div style={{ fontSize:28, fontWeight:900, color:c, letterSpacing:"-1px" }}>{v}</div>
-              <div style={{ fontSize:10, color:C.muted, marginTop:2, letterSpacing:".06em", textTransform:"uppercase" }}>{l}</div>
+              <div style={{ fontSize:10, color:"rgba(255,255,255,0.5)", marginTop:2, letterSpacing:".06em", textTransform:"uppercase" }}>{l}</div>
             </div>
           ))}
         </div>
@@ -173,6 +316,7 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL }) {
           { label:"YTD Throughput",  value:f0(GLOBAL.totalThru), color:C.sky, trend:null,             sub:"all sprints" },
           { label:"WIP · Now",       value:f0(CURRENT.wip),  color:CURRENT.wip>150?C.rose:C.amber, trend:null, sub:"active items" },
           { label:"Stale · Now",     value:f0(CURRENT.stale),color:C.rose,    trend:null,             sub:">5 days idle" },
+          { label:"Predictability",   value:pct(s12.cr),      color:s12.cr>=0.95?"#059669":s12.cr>=0.8?"#D97706":"#DC2626", trend:null, sub:"S12 · velocity÷committed" },
         ].map(({ label, value, color, trend, trendGood, sub }) => (
           <Card key={label} glow={color}>
             <Label>{label}</Label>
@@ -187,14 +331,14 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL }) {
         <SectionHead sub="Committed vs velocity · green = 100% delivered · L5 reference">Velocity trend — all past sprints</SectionHead>
         <ResponsiveContainer width="100%" height={240}>
           <ComposedChart data={velData} barCategoryGap="28%" barGap={2}>
-            <CartesianGrid strokeDasharray="4 4" stroke={C.border} vertical={false} />
-            <XAxis dataKey="name" tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} />
-            <Tooltip {...tt} formatter={(v,n) => [`${f0(v)} SP`, n==="vel"?"Velocity":"Committed"]} />
+            <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} vertical={false} />
+            <XAxis dataKey="name" tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} />
+            <Tooltip content={<VelocityTooltip isDark={isDark} />} />
             <ReferenceLine y={l5} stroke={C.amber} strokeDasharray="6 3" strokeWidth={1.5}
               label={{ value:`L5 avg ${f0(l5)}`, position:"insideTopRight", fontSize:10, fill:C.amber }} />
-            <Bar dataKey="comm" name="Committed" fill={C.border} radius={[4,4,0,0]} />
-            <Bar dataKey="vel"  name="Velocity"  radius={[4,4,0,0]}>
+            <Bar dataKey="comm" name="Committed SP" fill={isDark?"#1F2D45":"#DDE5F4"} radius={[4,4,0,0]} />
+            <Bar dataKey="vel"  name="Velocity SP"  radius={[4,4,0,0]}>
               {velData.map((s,i) => <Cell key={i} fill={s.fill} />)}
             </Bar>
           </ComposedChart>
@@ -213,9 +357,9 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL }) {
                   <stop offset="100%" stopColor={C.emerald} stopOpacity={0}   />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="4 4" stroke={C.border} vertical={false} />
-              <XAxis dataKey="name" tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} unit="%" domain={[75,105]} />
+              <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} vertical={false} />
+              <XAxis dataKey="name" tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} unit="%" domain={[75,105]} />
               <Tooltip {...tt} formatter={v => [`${v}%`,"Completion"]} />
               <ReferenceLine y={80}  stroke={C.rose}    strokeDasharray="5 3" label={{ value:"80%",  position:"insideTopLeft",  fontSize:9, fill:C.rose    }} />
               <ReferenceLine y={100} stroke={C.emerald} strokeDasharray="5 3" label={{ value:"100%", position:"insideTopRight", fontSize:9, fill:C.emerald }} />
@@ -249,7 +393,9 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL }) {
 }
 
 // ── PAGE: VELOCITY ────────────────────────────────────────────────────────────
-function VelocityPage({ SPRINTS, CURRENT }) {
+function VelocityPage({ SPRINTS, CURRENT, isDark }) {
+  const tt = getTT(isDark);
+  const ga = getGA(isDark);
   const [idx, setIdx] = useState(SPRINTS.length - 1);
   const s    = SPRINTS[idx];
   const prev = idx > 0 ? SPRINTS[idx-1] : null;
@@ -288,14 +434,14 @@ function VelocityPage({ SPRINTS, CURRENT }) {
         <SectionHead sub={`Selected: ${s.id} · L5 avg = ${f0(l5)} SP`}>Velocity vs committed</SectionHead>
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={SPRINTS.map((x,i) => ({ name:x.id, vel:Math.round(x.vel), comm:Math.round(x.comm), highlight:i===idx }))} barCategoryGap="25%" barGap={2}>
-            <CartesianGrid strokeDasharray="4 4" stroke={C.border} vertical={false} />
-            <XAxis dataKey="name" tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} />
-            <Tooltip {...tt} formatter={(v,n) => [`${f0(v)} SP`, n==="vel"?"Velocity":"Committed"]} />
+            <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} vertical={false} />
+            <XAxis dataKey="name" tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} />
+            <Tooltip content={<VelocityTooltip isDark={isDark} />} />
             <ReferenceLine y={l5} stroke={C.amber} strokeDasharray="5 3" label={{ value:`L5 ${f0(l5)}`, position:"insideTopRight", fontSize:10, fill:C.amber }} />
-            <Bar dataKey="comm" name="Committed" fill={C.border} radius={[4,4,0,0]} />
-            <Bar dataKey="vel"  name="Velocity"  radius={[4,4,0,0]}>
-              {SPRINTS.map((x,i) => <Cell key={i} fill={i===idx?C.cyan:x.cr>=1?C.emerald:C.violet} opacity={i===idx?1:0.6} />)}
+            <Bar dataKey="comm" name="Committed SP" fill={isDark?"#1F2D45":"#DDE5F4"} radius={[4,4,0,0]} />
+            <Bar dataKey="vel"  name="Velocity SP"  radius={[4,4,0,0]}>
+              {SPRINTS.map((x,i) => <Cell key={i} fill={i===idx?"#D97706":x.cr>=1?"#059669":"#1D4ED8"} opacity={i===idx?1:0.7} />)}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
@@ -324,7 +470,7 @@ function VelocityPage({ SPRINTS, CURRENT }) {
           {[
             { l:"vs L5 avg",      v:`${f1((s.vel/l5-1)*100)}%`,                      c:s.vel>l5?C.emerald:C.rose    },
             { l:"vs prev sprint", v:prev?`${f1((s.vel-prev.vel)/prev.vel*100)}%`:"—", c:prev&&s.vel>prev.vel?C.emerald:C.rose },
-            { l:"Predictability", v:f1(s.cr),                                         c:s.cr>=0.8?C.emerald:C.rose   },
+            { l:"Predictability Index", v:pct(s.cr),                               c:s.cr>=0.95?"#059669":s.cr>=0.8?"#D97706":"#DC2626" },
             { l:"Cycle time P50", v:`${f1(s.cy)}d`,                                   c:s.cy<=14?C.emerald:C.amber   },
             { l:"Lead time P50",  v:`${f1(s.ld)}d`,                                   c:s.ld<=14?C.emerald:C.amber   },
             { l:"User stories",   v:f0(s.us),                                         c:C.violet                      },
@@ -341,7 +487,9 @@ function VelocityPage({ SPRINTS, CURRENT }) {
 }
 
 // ── PAGE: QUALITY ─────────────────────────────────────────────────────────────
-function QualityPage({ SPRINTS, CURRENT }) {
+function QualityPage({ SPRINTS, CURRENT, isDark }) {
+  const tt = getTT(isDark);
+  const ga = getGA(isDark);
   const last8  = SPRINTS.slice(-8);
   const avgDD  = last8.reduce((a,s)=>a+s.dd,0)/last8.length;
   const s12    = SPRINTS[SPRINTS.length-1];
@@ -369,16 +517,28 @@ function QualityPage({ SPRINTS, CURRENT }) {
       <Card>
         <SectionHead sub="Bug count + defect density % · 20% threshold · last 10 sprints">Defect density trend</SectionHead>
         <ResponsiveContainer width="100%" height={240}>
-          <ComposedChart data={SPRINTS.slice(-10).map(s=>({ name:s.id, bugs:s.bugs, density:+(s.dd*100).toFixed(1) }))}>
-            <CartesianGrid strokeDasharray="4 4" stroke={C.border} vertical={false} />
-            <XAxis dataKey="name" tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} />
-            <YAxis yAxisId="l" tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} />
-            <YAxis yAxisId="r" orientation="right" tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} unit="%" domain={[0,60]} />
-            <Tooltip {...tt} />
-            <Legend wrapperStyle={{ fontSize:11, color:C.muted }} />
-            <Bar  yAxisId="l" dataKey="bugs"    name="Bug count"        fill={C.rose}  opacity={0.7} radius={[4,4,0,0]} />
-            <Line yAxisId="r" dataKey="density" name="Defect density %"  type="monotone" stroke={C.amber} strokeWidth={2.5} dot={{ r:4, fill:C.amber, strokeWidth:0 }} />
-            <ReferenceLine yAxisId="r" y={20} stroke={C.emerald} strokeDasharray="5 3" label={{ value:"20% target", position:"insideTopRight", fontSize:9, fill:C.emerald }} />
+          <ComposedChart data={SPRINTS.slice(-10).map(s=>({ name:s.id, bugs:s.bugs, density:+(s.dd*100).toFixed(1), dd:s.dd }))}>
+            <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} vertical={false} />
+            <XAxis dataKey="name" tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} />
+            <YAxis yAxisId="l" tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} />
+            <YAxis yAxisId="r" orientation="right" tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} unit="%" domain={[0,60]} />
+            <Tooltip content={<DefectTooltip isDark={isDark} />} />
+            <Legend wrapperStyle={{ fontSize:11, color:ga.axis }} />
+            <Bar yAxisId="l" dataKey="bugs" name="Bug count" radius={[4,4,0,0]}>
+              {SPRINTS.slice(-10).map((s, i) => (
+                <Cell key={i}
+                  fill={s.dd < 0.25 ? "#059669" : s.dd < 0.4 ? "#D97706" : "#DC2626"}
+                  opacity={0.85}
+                />
+              ))}
+            </Bar>
+            <Line yAxisId="r" dataKey="density" name="Defect density %" type="monotone" stroke={isDark?"#94A3B8":"#475569"} strokeWidth={2} dot={(props) => {
+              const { cx, cy, payload } = props;
+              const col = payload.dd < 0.25 ? "#059669" : payload.dd < 0.4 ? "#D97706" : "#DC2626";
+              return <circle key={cx} cx={cx} cy={cy} r={5} fill={col} stroke="#fff" strokeWidth={1.5} />;
+            }} />
+            <ReferenceLine yAxisId="r" y={20} stroke="#059669" strokeDasharray="5 3" strokeWidth={1.5} label={{ value:"Good ≤20%", position:"insideTopRight", fontSize:9, fill:"#059669" }} />
+            <ReferenceLine yAxisId="r" y={40} stroke="#D97706" strokeDasharray="5 3" strokeWidth={1.5} label={{ value:"Watch ≤40%", position:"insideBottomRight", fontSize:9, fill:"#D97706" }} />
           </ComposedChart>
         </ResponsiveContainer>
       </Card>
@@ -407,7 +567,9 @@ function QualityPage({ SPRINTS, CURRENT }) {
 }
 
 // ── PAGE: FLOW ────────────────────────────────────────────────────────────────
-function FlowPage({ SPRINTS, CURRENT }) {
+function FlowPage({ SPRINTS, CURRENT, isDark }) {
+  const tt = getTT(isDark);
+  const ga = getGA(isDark);
   const fd  = SPRINTS.slice(-10).map(s => ({ name:s.id, cycle:s.cy, lead:s.ld, eff:+(s.cy/s.ld*100).toFixed(1) }));
   const s12 = SPRINTS[SPRINTS.length-1];
   const s11 = SPRINTS[SPRINTS.length-2] || s12;
@@ -434,11 +596,11 @@ function FlowPage({ SPRINTS, CURRENT }) {
         <SectionHead sub="P50 median · 14d target line · last 10 sprints">Cycle time vs lead time</SectionHead>
         <ResponsiveContainer width="100%" height={240}>
           <LineChart data={fd}>
-            <CartesianGrid strokeDasharray="4 4" stroke={C.border} vertical={false} />
-            <XAxis dataKey="name" tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} unit="d" domain={[0,35]} />
+            <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} vertical={false} />
+            <XAxis dataKey="name" tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} unit="d" domain={[0,35]} />
             <Tooltip {...tt} formatter={(v,n) => [v?`${f1(v)}d`:"—",n]} />
-            <Legend wrapperStyle={{ fontSize:11, color:C.muted }} />
+            <Legend wrapperStyle={{ fontSize:11, color:ga.axis }} />
             <ReferenceLine y={14} stroke={C.emerald} strokeDasharray="5 3" label={{ value:"14d target", position:"insideTopRight", fontSize:9, fill:C.emerald }} />
             <Line type="monotone" dataKey="cycle" name="Cycle Time P50" stroke={C.amber}  strokeWidth={2.5} dot={{ r:4, fill:C.amber,  strokeWidth:0 }} />
             <Line type="monotone" dataKey="lead"  name="Lead Time P50"  stroke={C.violet} strokeWidth={2}   dot={{ r:4, fill:C.violet, strokeWidth:0 }} />
@@ -456,9 +618,9 @@ function FlowPage({ SPRINTS, CURRENT }) {
                   <stop offset="100%" stopColor={C.cyan} stopOpacity={0}   />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="4 4" stroke={C.border} vertical={false} />
-              <XAxis dataKey="name" tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} unit="%" domain={[0,80]} />
+              <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} vertical={false} />
+              <XAxis dataKey="name" tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} unit="%" domain={[0,80]} />
               <Tooltip {...tt} formatter={v=>[`${f1(v)}%`,"Flow Efficiency"]} />
               <ReferenceLine y={15} stroke={C.rose}    strokeDasharray="4 3" label={{ value:"15%", position:"insideTopRight", fontSize:9, fill:C.rose    }} />
               <ReferenceLine y={40} stroke={C.emerald} strokeDasharray="4 3" label={{ value:"40%", position:"insideTopRight", fontSize:9, fill:C.emerald }} />
@@ -470,11 +632,11 @@ function FlowPage({ SPRINTS, CURRENT }) {
           <SectionHead sub="User stories vs bugs closed · last 10 sprints">Throughput mix</SectionHead>
           <ResponsiveContainer width="100%" height={190}>
             <BarChart data={SPRINTS.slice(-10).map(s=>({ name:s.id, stories:s.thru-s.bugs, bugs:s.bugs }))} barCategoryGap="25%">
-              <CartesianGrid strokeDasharray="4 4" stroke={C.border} vertical={false} />
-              <XAxis dataKey="name" tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} />
+              <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} vertical={false} />
+              <XAxis dataKey="name" tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} />
               <Tooltip {...tt} />
-              <Legend wrapperStyle={{ fontSize:11, color:C.muted }} />
+              <Legend wrapperStyle={{ fontSize:11, color:ga.axis }} />
               <Bar dataKey="stories" name="User Stories" stackId="a" fill={C.violet} />
               <Bar dataKey="bugs"    name="Bugs"         stackId="a" fill={C.rose}   radius={[4,4,0,0]} />
             </BarChart>
@@ -486,7 +648,9 @@ function FlowPage({ SPRINTS, CURRENT }) {
 }
 
 // ── PAGE: TEAMS ───────────────────────────────────────────────────────────────
-function TeamsPage({ TEAMS, SPRINTS }) {
+function TeamsPage({ TEAMS, SPRINTS, isDark }) {
+  const tt = getTT(isDark);
+  const ga = getGA(isDark);
   const [active, setActive] = useState(null);
   const totalVel = TEAMS.reduce((a,t)=>a+t.vel,0);
 
@@ -556,11 +720,11 @@ function TeamsPage({ TEAMS, SPRINTS }) {
           <SectionHead sub="Bug load by team">Bug comparison</SectionHead>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={TEAMS.map(t => ({ name:t.name, bugs:t.bugs, closed:t.bugsClosed }))} layout="vertical">
-              <CartesianGrid strokeDasharray="4 4" stroke={C.border} horizontal={false} />
-              <XAxis type="number" tick={{ fontSize:10, fill:C.muted }} axisLine={false} tickLine={false} />
-              <YAxis type="category" dataKey="name" tick={{ fontSize:11, fill:C.text }} axisLine={false} tickLine={false} width={70} />
+              <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} horizontal={false} />
+              <XAxis type="number" tick={{ fontSize:10, fill:ga.axis }} axisLine={false} tickLine={false} />
+              <YAxis type="category" dataKey="name" tick={{ fontSize:11, fill:"var(--text)" }} axisLine={false} tickLine={false} width={70} />
               <Tooltip {...tt} />
-              <Legend wrapperStyle={{ fontSize:11, color:C.muted }} />
+              <Legend wrapperStyle={{ fontSize:11, color:ga.axis }} />
               <Bar dataKey="bugs"   name="Total Bugs"  fill={C.rose}    opacity={0.7} radius={[0,4,4,0]} />
               <Bar dataKey="closed" name="Bugs Closed" fill={C.emerald} opacity={0.9} radius={[0,4,4,0]} />
             </BarChart>
@@ -577,6 +741,13 @@ export default function App() {
   const [data,     setData]     = useState(null);
   const [loading,  setLoading]  = useState(true);
   const [error,    setError]    = useState(null);
+  const [isDark,   setIsDark]   = useState(true);
+
+  // Apply theme to <html>
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+    document.body.style.background = isDark ? "#0A0E1A" : "#F4F6FA";
+  }, [isDark]);
 
   // Load data.json on every page visit
   useEffect(() => {
@@ -590,13 +761,15 @@ export default function App() {
   }, []);
 
   if (loading) return (
-    <div style={{ fontFamily:"'Inter','SF Pro Display',system-ui,sans-serif", background:C.bg, minHeight:"100vh", color:C.text }}>
+    <div style={{ fontFamily:"'Inter','SF Pro Display',system-ui,sans-serif", background:"var(--bg)", minHeight:"100vh", color:"var(--text)" }}>
+      <style>{THEME_CSS}</style>
       <LoadingScreen />
     </div>
   );
 
   if (error) return (
-    <div style={{ fontFamily:"'Inter','SF Pro Display',system-ui,sans-serif", background:C.bg, minHeight:"100vh", color:C.text }}>
+    <div style={{ fontFamily:"'Inter','SF Pro Display',system-ui,sans-serif", background:"var(--bg)", minHeight:"100vh", color:"var(--text)" }}>
+      <style>{THEME_CSS}</style>
       <ErrorScreen message={error} />
     </div>
   );
@@ -608,49 +781,50 @@ export default function App() {
   });
 
   return (
-    <div style={{ fontFamily:"'Inter','SF Pro Display',system-ui,sans-serif", background:C.bg, minHeight:"100vh", color:C.text }}>
-      <style>{`@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }`}</style>
+    <div style={{ fontFamily:"'Inter','SF Pro Display',system-ui,sans-serif", background:"var(--bg)", minHeight:"100vh", color:"var(--text)", transition:"background .25s" }}>
+      <style>{THEME_CSS}</style>
 
       {/* Top navigation */}
-      <div style={{ background:C.surface, borderBottom:`1px solid ${C.border}`, padding:"0 24px", display:"flex", alignItems:"stretch", position:"sticky", top:0, zIndex:30 }}>
-        <div style={{ display:"flex", alignItems:"center", gap:10, paddingRight:24, borderRight:`1px solid ${C.border}`, marginRight:4 }}>
+      <div style={{ background:"var(--surface)", borderBottom:"1px solid var(--border)", padding:"0 24px", display:"flex", alignItems:"stretch", position:"sticky", top:0, zIndex:30, transition:"background .25s", minHeight:60 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:10, paddingRight:20, borderRight:"1px solid var(--border)", marginRight:4, paddingTop:4, paddingBottom:4 }}>
           <div style={{ width:28, height:28, borderRadius:8, background:`linear-gradient(135deg, ${C.violetD}, ${C.cyanD})`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, fontWeight:900, color:"#fff" }}>EM</div>
           <div>
-            <div style={{ fontSize:13, fontWeight:800, color:C.text, lineHeight:1.2 }}>EngagementManager</div>
-            <div style={{ fontSize:10, color:C.muted }}>Sprint Intelligence · 2026</div>
+            <div style={{ fontSize:13, fontWeight:800, color:"var(--text)", lineHeight:1.2 }}>EngagementManager</div>
+            <div style={{ fontSize:10, color:"var(--muted)" }}>Sprint Intelligence · 2026</div>
           </div>
         </div>
         <div style={{ display:"flex", alignItems:"stretch", flex:1 }}>
           {TABS.map(t => (
             <button key={t.id} onClick={() => setTab(t.id)} style={{
               border:"none", background:"none", cursor:"pointer",
-              padding:"0 18px", display:"flex", alignItems:"center", gap:7,
-              fontSize:13, fontWeight:tab===t.id?700:400,
-              color:tab===t.id?C.violet:C.muted,
-              borderBottom:tab===t.id?`2px solid ${C.violet}`:"2px solid transparent",
-              transition:"all .15s"
+              padding:"0 16px", display:"flex", alignItems:"center", gap:7,
+              fontSize:13, fontWeight:tab===t.id?700:600,
+              color:tab===t.id?"var(--tab-active)":"var(--tab-inactive)",
+              borderBottom:tab===t.id?"2px solid var(--tab-border)":"2px solid transparent",
+              transition:"all .15s", overflow:"hidden"
             }}>
               <span style={{ fontSize:14 }}>{t.icon}</span>
               {t.label}
             </button>
           ))}
         </div>
-        <div style={{ display:"flex", alignItems:"center", gap:12, paddingLeft:16, borderLeft:`1px solid ${C.border}` }}>
+        <div style={{ display:"flex", alignItems:"center", gap:12, paddingLeft:16, borderLeft:"1px solid var(--border)" }}>
           <div style={{ display:"flex", alignItems:"center", gap:6 }}>
-            <div style={{ width:7, height:7, borderRadius:"50%", background:C.amber, animation:"pulse 2s infinite" }} />
-            <span style={{ fontSize:11, fontWeight:700, color:C.amber }}>Live</span>
+            <div style={{ width:7, height:7, borderRadius:"50%", background:"#D97706", animation:"pulse 2s infinite" }} />
+            <span style={{ fontSize:11, fontWeight:700, color:"#D97706" }}>Live</span>
           </div>
-          <div style={{ fontSize:11, color:C.muted }}>Updated {lastRefreshed}</div>
+          <div style={{ fontSize:11, color:"var(--muted)" }}>Updated {lastRefreshed}</div>
+          <ThemeToggle isDark={isDark} onToggle={() => setIsDark(d => !d)} />
         </div>
       </div>
 
       {/* Page content */}
       <div style={{ padding:"22px 24px 60px", maxWidth:1400, margin:"0 auto" }}>
-        {tab==="overview" && <Overview  SPRINTS={SPRINTS} CURRENT={CURRENT} TEAMS={TEAMS}   GLOBAL={GLOBAL}  />}
-        {tab==="velocity" && <VelocityPage SPRINTS={SPRINTS} CURRENT={CURRENT} />}
-        {tab==="quality"  && <QualityPage  SPRINTS={SPRINTS} CURRENT={CURRENT} />}
-        {tab==="flow"     && <FlowPage     SPRINTS={SPRINTS} CURRENT={CURRENT} />}
-        {tab==="teams"    && <TeamsPage    TEAMS={TEAMS}     SPRINTS={SPRINTS} />}
+        {tab==="overview" && <Overview  SPRINTS={SPRINTS} CURRENT={CURRENT} TEAMS={TEAMS} GLOBAL={GLOBAL} isDark={isDark} />}
+        {tab==="velocity" && <VelocityPage SPRINTS={SPRINTS} CURRENT={CURRENT} isDark={isDark} />}
+        {tab==="quality"  && <QualityPage  SPRINTS={SPRINTS} CURRENT={CURRENT} isDark={isDark} />}
+        {tab==="flow"     && <FlowPage     SPRINTS={SPRINTS} CURRENT={CURRENT} isDark={isDark} />}
+        {tab==="teams"    && <TeamsPage    TEAMS={TEAMS}     SPRINTS={SPRINTS} isDark={isDark} />}
       </div>
     </div>
   );
