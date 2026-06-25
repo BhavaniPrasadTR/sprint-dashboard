@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line, ComposedChart,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -394,7 +394,6 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL, isDark }) {
 
 // ── PAGE: VELOCITY ────────────────────────────────────────────────────────────
 function VelocityPage({ SPRINTS, CURRENT, isDark }) {
-  const tt = getTT(isDark);
   const ga = getGA(isDark);
   const [idx, setIdx] = useState(SPRINTS.length - 1);
   const s    = SPRINTS[idx];
@@ -488,7 +487,6 @@ function VelocityPage({ SPRINTS, CURRENT, isDark }) {
 
 // ── PAGE: QUALITY ─────────────────────────────────────────────────────────────
 function QualityPage({ SPRINTS, CURRENT, isDark }) {
-  const tt = getTT(isDark);
   const ga = getGA(isDark);
   const last8  = SPRINTS.slice(-8);
   const avgDD  = last8.reduce((a,s)=>a+s.dd,0)/last8.length;
