@@ -289,7 +289,7 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL, isDark }) {
               Live · {CURRENT.daysLeft} days remaining
             </span>
           </div>
-          <div style={{ fontSize:26, fontWeight:900, color:"#fff", letterSpacing:"-1px", marginBottom:4 }}>EngagementManager · 2026</div>
+          <div style={{ fontSize:26, fontWeight:900, color:"#fff", letterSpacing:"-1px", marginBottom:4 }}>Engagement Manager · 2026</div>
           <div style={{ fontSize:13, color:"rgba(255,255,255,0.6)" }}>Sprint KPI Dashboard · User Stories & Bugs · 4 Teams</div>
         </div>
         <div style={{ display:"flex", gap:32, flexWrap:"wrap", position:"relative" }}>
@@ -787,7 +787,7 @@ export default function App() {
         <div style={{ display:"flex", alignItems:"center", gap:10, paddingRight:20, borderRight:"1px solid var(--border)", marginRight:4, paddingTop:4, paddingBottom:4 }}>
           <div style={{ width:28, height:28, borderRadius:8, background:`linear-gradient(135deg, ${C.violetD}, ${C.cyanD})`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, fontWeight:900, color:"#fff" }}>EM</div>
           <div>
-            <div style={{ fontSize:13, fontWeight:800, color:"var(--text)", lineHeight:1.2 }}>EngagementManager</div>
+            <div style={{ fontSize:13, fontWeight:800, color:"var(--text)", lineHeight:1.2 }}>Engagement Manager</div>
             <div style={{ fontSize:10, color:"var(--muted)" }}>Sprint Intelligence · 2026</div>
           </div>
         </div>
