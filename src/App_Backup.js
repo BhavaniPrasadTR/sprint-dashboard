@@ -265,30 +265,6 @@ const TABS = [
 
 // ── PAGE: OVERVIEW ────────────────────────────────────────────────────────────
 function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL, isDark }) {
-  // Recalculates every page load — never stale
-  const liveDaysLeft = (() => {
-    try {
-      const today = new Date(); today.setHours(0, 0, 0, 0);
-      const S01 = new Date('2025-12-31'); // S01 start date
-      const lastNum = SPRINTS.length > 0
-        ? parseInt(SPRINTS[SPRINTS.length - 1].id.replace('S', ''), 10) : 12;
-      const currNum   = lastNum + 1;
-      const sprintStart = new Date(S01);
-      sprintStart.setDate(S01.getDate() + (currNum - 1) * 14);
-      const sprintEnd = new Date(sprintStart);
-      sprintEnd.setDate(sprintStart.getDate() + 13);
-      sprintEnd.setHours(23, 59, 59, 999);
-      if (today > sprintEnd) return 0;
-      let count = 0;
-      const d = new Date(today);
-      while (d <= sprintEnd) {
-        const day = d.getDay();
-        if (day !== 0 && day !== 6) count++;
-        d.setDate(d.getDate() + 1);
-      }
-      return count;
-    } catch(e) { return CURRENT.daysLeft || 0; }
-  })();
   const tt = getTT(isDark);
   const ga = getGA(isDark);
   const s12    = SPRINTS[SPRINTS.length - 1];
@@ -310,7 +286,7 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL, isDark }) {
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:10 }}>
             <div style={{ width:8, height:8, borderRadius:"50%", background:C.amber, boxShadow:`0 0 8px ${C.amber}` }} />
             <span style={{ fontSize:11, fontWeight:700, color:C.amber, letterSpacing:".1em", textTransform:"uppercase" }}>
-              Live · {liveDaysLeft} days remaining
+              Live · {CURRENT.daysLeft} days remaining
             </span>
           </div>
           <div style={{ fontSize:26, fontWeight:900, color:"#fff", letterSpacing:"-1px", marginBottom:4 }}>Engagement Manager · 2026</div>
@@ -798,18 +774,9 @@ export default function App() {
 
   const { sprints: SPRINTS, current: CURRENT, teams: TEAMS, global: GLOBAL } = data;
 
-  const lastRefreshed = (() => {
-    try {
-      const d = new Date(data.lastRefreshed);
-      // toLocaleString(undefined) uses viewer's own locale + timezone
-      // timeZoneName:"short" gives IST, EST, GMT, UTC etc.
-      return d.toLocaleString(undefined, {
-        month:"short", day:"numeric",
-        hour:"2-digit", minute:"2-digit",
-        timeZoneName:"short"
-      });
-    } catch(e) { return new Date(data.lastRefreshed).toLocaleString(); }
-  })();
+  const lastRefreshed = new Date(data.lastRefreshed).toLocaleString("en-US", {
+    month:"short", day:"numeric", hour:"2-digit", minute:"2-digit"
+  });
 
   return (
     <div style={{ fontFamily:"'Inter','SF Pro Display',system-ui,sans-serif", background:"var(--bg)", minHeight:"100vh", color:"var(--text)", transition:"background .25s" }}>
