@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-06-26T19:18:05.567905+00:00",
+  "lastRefreshed": "2026-06-26T20:41:41.316690+00:00",
   "sprints": [
     {
       "n": 1,
@@ -220,16 +220,16 @@
   ],
   "current": {
     "vel": 153.0,
-    "comm": 990.0,
-    "remSP": 837.0,
+    "comm": 992.0,
+    "remSP": 839.0,
     "thru": 84,
     "items": 354,
     "bugs": 134,
     "wip": 200,
     "open": 270,
     "stale": 214,
-    "cr": 0.1545,
-    "pi": 0.1545,
+    "cr": 0.1542,
+    "pi": 0.1542,
     "us": 220,
     "bc": 41,
     "dd": 0.4881,
@@ -239,12 +239,12 @@
     {
       "name": "Falcons",
       "vel": 1254.5,
-      "comm": 1900.5,
+      "comm": 1902.5,
       "thru": 475,
       "bugs": 416,
       "bugsClosed": 207,
       "wip": 87,
-      "cr": 0.6601,
+      "cr": 0.6594,
       "us": 412,
       "stale": 328,
       "color": "#1D4ED8"
@@ -291,11 +291,11 @@
   ],
   "global": {
     "totalVel": 3635.0,
-    "totalComm": 5148.0,
+    "totalComm": 5150.0,
     "totalThru": 1276,
     "totalBugs": 668,
     "totalWIP": 209,
-    "cr": 0.7061,
+    "cr": 0.7058,
     "stale": 517,
     "items": 1886,
     "l5": 1517.0,
