@@ -21,7 +21,7 @@ def get_token():
     r.raise_for_status()
     return r.json()["access_token"]
 
-def dax(token, query, max_rows=2000):
+def dax(token, query):
     r = requests.post(
         f"https://api.powerbi.com/v1.0/myorg/datasets/{DATASET_ID}/executeQueries",
         headers={"Authorization":f"Bearer {token}","Content-Type":"application/json"},
@@ -144,6 +144,7 @@ if glob_rows:
 
 # ── Member stats (Teams tab breakdown table) ──────────────────────────────────
 print("Fetching member stats...")
+# Filter future sprints by name (S14, S15 etc) — avoids cross-table ref issues
 ms_rows = dax(token, """
 EVALUATE
 ADDCOLUMNS(
@@ -152,8 +153,9 @@ ADDCOLUMNS(
             Fact_WorkItems[WorkItemType] IN {"User Story","Bug"}
             && NOT ISBLANK(Fact_WorkItems[AssignedToName])
             && NOT ISBLANK(Fact_WorkItems[TeamName])
-            && Fact_WorkItems[SprintNumber] <= MAX(Dim_Iteration[SprintNumber])
-        && Dim_Iteration[IsFutureSprint] = FALSE()
+            && NOT(CONTAINSSTRING(Fact_WorkItems[SprintName], "S14"))
+            && NOT(CONTAINSSTRING(Fact_WorkItems[SprintName], "S15"))
+            && NOT(CONTAINSSTRING(Fact_WorkItems[SprintName], "S16"))
         ),
         Fact_WorkItems[TeamName],
         Fact_WorkItems[AssignedToName],
@@ -179,12 +181,15 @@ ADDCOLUMNS(
 )
 ORDER BY Fact_WorkItems[TeamName], Fact_WorkItems[SprintNumber],
          Fact_WorkItems[AssignedToName]
-""", max_rows=2000)
+""")
 
 member_stats = []
 for r in ms_rows:
     snum = int(r.get("Fact_WorkItems[SprintNumber]", 0) or 0)
-    if snum == 0: continue          # skip blank sprint numbers
+    sname = r.get("Fact_WorkItems[SprintName]", "")
+    if snum == 0: continue
+    # Skip any future sprint names beyond what CONTAINSSTRING filters above
+    if any(f"S{n:02d}" in sname for n in range(14, 30)): continue
     member_stats.append({
         "team":   r.get("Fact_WorkItems[TeamName]", ""),
         "member": r.get("Fact_WorkItems[AssignedToName]", ""),
