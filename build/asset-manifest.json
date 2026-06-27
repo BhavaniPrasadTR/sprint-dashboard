@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/sprint-dashboard/static/css/main.e6c13ad2.css",
-    "main.js": "/sprint-dashboard/static/js/main.fd6d152c.js",
+    "main.js": "/sprint-dashboard/static/js/main.84548bf9.js",
     "static/js/453.ad3c6b8e.chunk.js": "/sprint-dashboard/static/js/453.ad3c6b8e.chunk.js",
     "index.html": "/sprint-dashboard/index.html",
     "main.e6c13ad2.css.map": "/sprint-dashboard/static/css/main.e6c13ad2.css.map",
-    "main.fd6d152c.js.map": "/sprint-dashboard/static/js/main.fd6d152c.js.map",
+    "main.84548bf9.js.map": "/sprint-dashboard/static/js/main.84548bf9.js.map",
     "453.ad3c6b8e.chunk.js.map": "/sprint-dashboard/static/js/453.ad3c6b8e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.fd6d152c.js"
+    "static/js/main.84548bf9.js"
   ]
 }

@@ -152,7 +152,8 @@ ADDCOLUMNS(
             Fact_WorkItems[WorkItemType] IN {"User Story","Bug"}
             && NOT ISBLANK(Fact_WorkItems[AssignedToName])
             && NOT ISBLANK(Fact_WorkItems[TeamName])
-            && Fact_WorkItems[SprintNumber] <= 13
+            && Fact_WorkItems[SprintNumber] <= MAX(Dim_Iteration[SprintNumber])
+        && Dim_Iteration[IsFutureSprint] = FALSE()
         ),
         Fact_WorkItems[TeamName],
         Fact_WorkItems[AssignedToName],
@@ -183,7 +184,7 @@ ORDER BY Fact_WorkItems[TeamName], Fact_WorkItems[SprintNumber],
 member_stats = []
 for r in ms_rows:
     snum = int(r.get("Fact_WorkItems[SprintNumber]", 0) or 0)
-    if snum > 13: continue          # exclude future sprints
+    if snum == 0: continue          # skip blank sprint numbers
     member_stats.append({
         "team":   r.get("Fact_WorkItems[TeamName]", ""),
         "member": r.get("Fact_WorkItems[AssignedToName]", ""),
