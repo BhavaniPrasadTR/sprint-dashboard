@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line, ComposedChart,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -254,6 +254,82 @@ function DefectTooltip({ active, payload, label, isDark }) {
   );
 }
 
+
+// ── INFOTIP — modern ⓘ icon with portal-style tooltip (no card overflow) ─────
+function InfoTip({ title, body, formula }) {
+  const [pos, setPos]     = React.useState(null);
+  const btnRef            = React.useRef(null);
+
+  function open() {
+    if (!btnRef.current) return;
+    const r = btnRef.current.getBoundingClientRect();
+    setPos({
+      // anchor to bottom-left of the icon; clamp so it never goes off-screen
+      x: Math.min(r.left, window.innerWidth - 236),
+      y: r.bottom + 6,
+    });
+  }
+  function close() { setPos(null); }
+
+  return (
+    <>
+      {/* Icon — SVG circle-question used by Linear / Notion / Figma */}
+      <span
+        ref={btnRef}
+        onMouseEnter={open}
+        onMouseLeave={close}
+        onFocus={open}
+        onBlur={close}
+        tabIndex={0}
+        aria-label={title}
+        style={{ display:"inline-flex", alignItems:"center", justifyContent:"center",
+          cursor:"help", flexShrink:0, verticalAlign:"middle", outline:"none",
+          opacity:.55, transition:"opacity .15s" }}
+        onMouseOver={e => e.currentTarget.style.opacity = 1}
+        onMouseOut={e  => e.currentTarget.style.opacity = .55}
+      >
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"
+          xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.4"/>
+          <path d="M7.25 6.5C7.25 6.09 7.58 5.75 8 5.75C8.42 5.75 8.75 6.09 8.75 6.5
+            C8.75 6.78 8.59 7.03 8.35 7.16L8 7.35V8.5" stroke="currentColor"
+            strokeWidth="1.3" strokeLinecap="round"/>
+          <circle cx="8" cy="10.5" r=".7" fill="currentColor"/>
+        </svg>
+      </span>
+      {/* Portal-style popup — rendered at document root, never clipped by cards */}
+      {pos && (
+        <div
+          style={{
+            position:"fixed", left:pos.x, top:pos.y,
+            width:228, zIndex:9999,
+            background:"var(--surface)",
+            border:"1px solid var(--border)",
+            borderRadius:10, padding:"11px 14px",
+            boxShadow:"0 4px 20px rgba(0,0,0,.15)",
+            pointerEvents:"none",
+          }}
+        >
+          <div style={{ fontSize:12, fontWeight:600, color:"var(--text)",
+            marginBottom:5, lineHeight:1.4 }}>{title}</div>
+          <div style={{ fontSize:11, fontWeight:400, color:"var(--muted)",
+            lineHeight:1.55 }}>{body}</div>
+          {formula && (
+            <div style={{ marginTop:7, display:"inline-block",
+              fontSize:10, fontWeight:500, color:C.cyan,
+              background:isDarkMode()?"#0C1E30":"#EFF6FF",
+              borderRadius:4, padding:"2px 8px", fontFamily:"monospace",
+              letterSpacing:".02em" }}>{formula}</div>
+          )}
+        </div>
+      )}
+    </>
+  );
+}
+function isDarkMode() {
+  return document.documentElement.getAttribute("data-theme") === "dark";
+}
+
 // ── TABS ──────────────────────────────────────────────────────────────────────
 const TABS = [
   { id:"overview", icon:"◎", label:"Overview"  },
@@ -265,6 +341,21 @@ const TABS = [
 
 // ── PAGE: OVERVIEW ────────────────────────────────────────────────────────────
 function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL, isDark }) {
+  const liveDaysLeft = (() => {
+    try {
+      const today = new Date(); today.setHours(0,0,0,0);
+      const S01 = new Date("2025-12-31");
+      const lastNum = SPRINTS.length > 0 ? parseInt(SPRINTS[SPRINTS.length-1].id.replace("S",""),10) : 12;
+      const currNum = lastNum + 1;
+      const sprintStart = new Date(S01); sprintStart.setDate(S01.getDate()+(currNum-1)*14);
+      const sprintEnd = new Date(sprintStart); sprintEnd.setDate(sprintStart.getDate()+13);
+      sprintEnd.setHours(23,59,59,999);
+      if (today > sprintEnd) return 0;
+      let count=0; const d=new Date(today);
+      while(d<=sprintEnd){if(d.getDay()!==0&&d.getDay()!==6)count++;d.setDate(d.getDate()+1);}
+      return count;
+    } catch(e){return CURRENT.daysLeft||0;}
+  })();
   const tt = getTT(isDark);
   const ga = getGA(isDark);
   const s12    = SPRINTS[SPRINTS.length - 1];
@@ -286,7 +377,7 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL, isDark }) {
           <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:10 }}>
             <div style={{ width:8, height:8, borderRadius:"50%", background:C.amber, boxShadow:`0 0 8px ${C.amber}` }} />
             <span style={{ fontSize:11, fontWeight:700, color:C.amber, letterSpacing:".1em", textTransform:"uppercase" }}>
-              Live · {CURRENT.daysLeft} days remaining
+              Live · {liveDaysLeft} days remaining
             </span>
           </div>
           <div style={{ fontSize:26, fontWeight:900, color:"#fff", letterSpacing:"-1px", marginBottom:4 }}>Engagement Manager · 2026</div>
@@ -310,16 +401,19 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL, isDark }) {
       {/* KPI row */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(160px,1fr))", gap:12 }}>
         {[
-          { label:"S12 Velocity",    value:f0(s12.vel),      color:C.violet,  trend:vTrend,           trendGood:"up", sub:"vs prev sprint" },
-          { label:"S12 Completion",  value:pct(s12.cr),      color:s12.cr>=1?C.emerald:s12.cr>=0.8?C.amber:C.rose, trend:s12.cr-s11.cr, trendGood:"up", sub:"vs prev sprint" },
-          { label:"L5 Avg Velocity", value:f0(l5),            color:C.cyan,    trend:null,             sub:"rolling 5 sprints" },
-          { label:"YTD Throughput",  value:f0(GLOBAL.totalThru), color:C.sky, trend:null,             sub:"all sprints" },
-          { label:"WIP · Now",       value:f0(CURRENT.wip),  color:CURRENT.wip>150?C.rose:C.amber, trend:null, sub:"active items" },
-          { label:"Stale · Now",     value:f0(CURRENT.stale),color:C.rose,    trend:null,             sub:">5 days idle" },
-          { label:"Predictability",   value:pct(s12.cr),      color:s12.cr>=0.95?"#059669":s12.cr>=0.8?"#D97706":"#DC2626", trend:null, sub:"S12 · velocity÷committed" },
-        ].map(({ label, value, color, trend, trendGood, sub }) => (
+          { label:"S12 Velocity",    value:f0(s12.vel),      color:C.violet,  trend:vTrend,           trendGood:"up", sub:"vs prev sprint", tip:{ title:"Velocity", body:"Total story points delivered and accepted in Sprint 12. Higher means more work completed.", formula:"Σ closed SP in sprint" } },
+          { label:"S12 Completion",  value:pct(s12.cr),      color:s12.cr>=1?C.emerald:s12.cr>=0.8?C.amber:C.rose, trend:s12.cr-s11.cr, trendGood:"up", sub:"vs prev sprint", tip:{ title:"Sprint completion rate", body:"Percentage of committed story points actually delivered. 95% or above is excellent. Below 80% needs attention.", formula:"Velocity ÷ Committed SP" } },
+          { label:"L5 Avg Velocity", value:f0(l5),            color:C.cyan,    trend:null,             sub:"rolling 5 sprints", tip:{ title:"Rolling 5-sprint average", body:"Average velocity over the last 5 sprints. A stable predictor of how much the team can deliver per sprint.", formula:"Avg(SP last 5 sprints)" } },
+          { label:"YTD Throughput",  value:f0(GLOBAL.totalThru), color:C.sky, trend:null,             sub:"all sprints", tip:{ title:"YTD throughput", body:"Total User Stories and Bugs closed across all sprints this year. Measures overall output volume.", formula:"Σ closed items YTD" } },
+          { label:"WIP · Now",       value:f0(CURRENT.wip),  color:CURRENT.wip>150?C.rose:C.amber, trend:null, sub:"active items", tip:{ title:"Work in progress", body:"Items currently in Active state. High WIP slows delivery. Finish before starting new work. Target below 150.", formula:"Count of Active items" } },
+          { label:"Stale · Now",     value:f0(CURRENT.stale),color:C.rose,    trend:null,             sub:">5 days idle", tip:{ title:"Stale items", body:"Active items with no state change in more than 5 working days. May indicate blockers or forgotten work.", formula:"Active items with no update over 5 days" } },
+          { label:"Predictability",   value:pct(s12.cr),      color:s12.cr>=0.95?"#059669":s12.cr>=0.8?"#D97706":"#DC2626", trend:null, sub:"S12 · velocity÷committed", tip:{ title:"Predictability index", body:"How consistently the team delivers what they commit to. 95% or above means forecasts are reliable for planning.", formula:"Velocity ÷ Committed SP" } },
+        ].map(({ label, value, color, trend, trendGood, sub, tip }) => (
           <Card key={label} glow={color}>
-            <Label>{label}</Label>
+            <div style={{ display:"flex", alignItems:"center", gap:5, marginBottom:2 }}>
+              <Label>{label}</Label>
+              {tip && <InfoTip title={tip.title} body={tip.body} formula={tip.formula} />}
+            </div>
             <Big value={value} color={color} />
             {trend != null ? <Delta val={trend} good={trendGood} label={sub} /> : <div style={{ fontSize:11, color:C.muted, marginTop:4 }}>{sub}</div>}
           </Card>
@@ -328,7 +422,7 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL, isDark }) {
 
       {/* Velocity chart */}
       <Card>
-        <SectionHead sub="Committed vs velocity · green = 100% delivered · L5 reference">Velocity trend — all past sprints</SectionHead>
+        <SectionHead sub="Committed vs velocity · green = 100% delivered · L5 reference">Velocity trend — all past sprints <InfoTip title="Velocity trend" body="Each sprint shows committed SP (grey) vs delivered (coloured). Green bars mean 100% delivered. The amber dashed line is the L5 rolling average — your expected capacity per sprint." /></SectionHead>
         <ResponsiveContainer width="100%" height={240}>
           <ComposedChart data={velData} barCategoryGap="28%" barGap={2}>
             <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} vertical={false} />
@@ -348,7 +442,7 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL, isDark }) {
       {/* Bottom row */}
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:18 }}>
         <Card>
-          <SectionHead sub="% SP delivered · 80% threshold">Completion rate</SectionHead>
+          <SectionHead sub="% SP delivered · 80% threshold">Completion rate <InfoTip title="Completion rate" body="Percentage of committed story points delivered per sprint. 100% means everything promised was delivered. The red line marks the 80% minimum target." formula="Velocity ÷ Committed SP × 100" /></SectionHead>
           <ResponsiveContainer width="100%" height={190}>
             <AreaChart data={SPRINTS.slice(-8).map(s => ({ name:s.id, rate:+(s.cr*100).toFixed(1) }))}>
               <defs>
@@ -368,7 +462,7 @@ function Overview({ SPRINTS, CURRENT, TEAMS, GLOBAL, isDark }) {
           </ResponsiveContainer>
         </Card>
         <Card>
-          <SectionHead sub="YTD velocity comparison">Team breakdown</SectionHead>
+          <SectionHead sub="YTD velocity comparison">Team breakdown <InfoTip title="Team velocity share" body="Year-to-date story points delivered by each team. Longer bar means more delivery. Use this to balance workload planning across teams." /></SectionHead>
           <div style={{ display:"flex", flexDirection:"column", gap:14, marginTop:4 }}>
             {TEAMS.map(t => (
               <div key={t.name}>
@@ -430,7 +524,7 @@ function VelocityPage({ SPRINTS, CURRENT, isDark }) {
         ))}
       </div>
       <Card>
-        <SectionHead sub={`Selected: ${s.id} · L5 avg = ${f0(l5)} SP`}>Velocity vs committed</SectionHead>
+        <SectionHead sub={`Selected: ${s.id} · L5 avg = ${f0(l5)} SP`}>Velocity vs committed <InfoTip title="Velocity vs committed" body="What the team committed to (grey bars) vs what they actually delivered (coloured) per sprint. The highlighted bar is the selected sprint." /></SectionHead>
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={SPRINTS.map((x,i) => ({ name:x.id, vel:Math.round(x.vel), comm:Math.round(x.comm), highlight:i===idx }))} barCategoryGap="25%" barGap={2}>
             <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} vertical={false} />
@@ -447,7 +541,7 @@ function VelocityPage({ SPRINTS, CURRENT, isDark }) {
       </Card>
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:18 }}>
         <Card>
-          <SectionHead sub="Story points breakdown">SP delivery</SectionHead>
+          <SectionHead sub="Story points breakdown">SP delivery <InfoTip title="SP delivery breakdown" body="How the selected sprint's committed story points split between delivered (green) and undelivered (red). Aim for the green bar to reach 100%." /></SectionHead>
           {[
             { l:"Delivered",   v:s.vel,                    c:C.emerald },
             { l:"Undelivered", v:Math.max(0,s.comm-s.vel), c:C.rose    },
@@ -465,17 +559,20 @@ function VelocityPage({ SPRINTS, CURRENT, isDark }) {
           </div>
         </Card>
         <Card>
-          <SectionHead sub="Key metrics for selected sprint">Indicators</SectionHead>
+          <SectionHead sub="Key metrics for selected sprint">Indicators <InfoTip title="Sprint indicators" body="Key performance metrics for the selected sprint. Hover each row label for a plain-English explanation of what it measures and what a good result looks like." /></SectionHead>
           {[
-            { l:"vs L5 avg",      v:`${f1((s.vel/l5-1)*100)}%`,                      c:s.vel>l5?C.emerald:C.rose    },
-            { l:"vs prev sprint", v:prev?`${f1((s.vel-prev.vel)/prev.vel*100)}%`:"—", c:prev&&s.vel>prev.vel?C.emerald:C.rose },
-            { l:"Predictability Index", v:pct(s.cr),                               c:s.cr>=0.95?"#059669":s.cr>=0.8?"#D97706":"#DC2626" },
-            { l:"Cycle time P50", v:`${f1(s.cy)}d`,                                   c:s.cy<=14?C.emerald:C.amber   },
-            { l:"Lead time P50",  v:`${f1(s.ld)}d`,                                   c:s.ld<=14?C.emerald:C.amber   },
-            { l:"User stories",   v:f0(s.us),                                         c:C.violet                      },
-          ].map(({ l, v, c }) => (
-            <div key={l} style={{ display:"flex", justifyContent:"space-between", padding:"7px 0", borderBottom:`1px solid ${C.border}` }}>
-              <span style={{ fontSize:12, color:C.muted }}>{l}</span>
+            { l:"vs L5 avg",      v:`${f1((s.vel/l5-1)*100)}%`,                      c:s.vel>l5?C.emerald:C.rose,    tip:{ title:"vs L5 average", body:"How this sprint compares to the 5-sprint rolling average. Positive means above trend, negative means below." } },
+            { l:"vs prev sprint", v:prev?`${f1((s.vel-prev.vel)/prev.vel*100)}%`:"—", c:prev&&s.vel>prev.vel?C.emerald:C.rose, tip:{ title:"vs previous sprint", body:"Velocity change compared to the immediately preceding sprint. Shows whether the team is speeding up or slowing down." } },
+            { l:"Predictability Index", v:pct(s.cr),                               c:s.cr>=0.95?"#059669":s.cr>=0.8?"#D97706":"#DC2626", tip:{ title:"Predictability index", body:"How reliably the team delivered what they committed. 95% or above is excellent. Below 80% signals planning or execution issues.", formula:"Velocity ÷ Committed SP" } },
+            { l:"Cycle time P50", v:`${f1(s.cy)}d`,                                   c:s.cy<=14?C.emerald:C.amber,   tip:{ title:"Median cycle time", body:"Half of all items were completed within this many days of starting work. Target is 14 days or fewer.", formula:"Median(days Active → Done)" } },
+            { l:"Lead time P50",  v:`${f1(s.ld)}d`,                                   c:s.ld<=14?C.emerald:C.amber,   tip:{ title:"Median lead time", body:"Half of all items were completed within this many days of being created, including waiting time before work began.", formula:"Median(days Created → Done)" } },
+            { l:"User stories",   v:f0(s.us),                                         c:C.violet,                     tip:{ title:"User stories closed", body:"Number of User Story items closed this sprint. Excludes bugs — shows pure feature delivery output." } },
+          ].map(({ l, v, c, tip }) => (
+            <div key={l} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"7px 0", borderBottom:`1px solid ${C.border}` }}>
+              <div style={{ display:"flex", alignItems:"center", gap:5 }}>
+                <span style={{ fontSize:12, color:C.muted }}>{l}</span>
+                {tip && <InfoTip title={tip.title} body={tip.body} formula={tip.formula} />}
+              </div>
               <span style={{ fontSize:13, fontWeight:700, color:c }}>{v}</span>
             </div>
           ))}
@@ -498,22 +595,25 @@ function QualityPage({ SPRINTS, CURRENT, isDark }) {
     <div style={{ display:"flex", flexDirection:"column", gap:18 }}>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(155px,1fr))", gap:12 }}>
         {[
-          { label:"S12 Bugs",          value:f0(s12.bugs),  color:C.rose,            sub:`was ${f0(s11.bugs)} in prev` },
-          { label:"S12 Defect Density",value:pct(s12.dd),   color:QUAL(s12.dd),      sub:"bugs÷closed items" },
-          { label:"Avg Density L8",    value:pct(avgDD),    color:QUAL(avgDD),       sub:"8-sprint average" },
-          { label:"Current Bugs",      value:f0(CURRENT.bugs), color:C.rose,         sub:"live sprint" },
-          { label:"YTD Total Bugs",    value:f0(SPRINTS.reduce((a,s)=>a+s.bugs,0)), color:C.muted, sub:"all sprints" },
-          { label:"Bugs Closed S12",   value:f0(s12.bc),    color:C.emerald,         sub:`${pct(s12.bc/s12.bugs)} closure rate` },
-        ].map(({ label, value, color, sub }) => (
+          { label:"S12 Bugs",          value:f0(s12.bugs),  color:C.rose,            sub:`was ${f0(s11.bugs)} in prev`, tip:{ title:"Sprint bugs", body:"Total bugs closed in Sprint 12. Compare with previous sprints to spot quality trends. Fewer bugs means higher quality.", formula:"Count of Bug items closed" } },
+          { label:"S12 Defect Density",value:pct(s12.dd),   color:QUAL(s12.dd),      sub:"bugs÷closed items", tip:{ title:"Defect density", body:"Bugs as a percentage of all items closed. Below 25% is healthy (green), 25–40% is a watch zone (amber), above 40% needs action (red).", formula:"Bugs ÷ Total closed items" } },
+          { label:"Avg Density L8",    value:pct(avgDD),    color:QUAL(avgDD),       sub:"8-sprint average", tip:{ title:"Average defect density (L8)", body:"Mean defect density across the last 8 sprints. Shows the team's quality baseline over time and whether it is improving.", formula:"Avg(defect density, last 8 sprints)" } },
+          { label:"Current Bugs",      value:f0(CURRENT.bugs), color:C.rose,         sub:"live sprint", tip:{ title:"Live bug count", body:"Bugs currently open in the active sprint. Updates on every data refresh. High live bugs may impact sprint completion rate.", formula:"Active sprint: open Bug items" } },
+          { label:"YTD Total Bugs",    value:f0(SPRINTS.reduce((a,s)=>a+s.bugs,0)), color:C.muted, sub:"all sprints", tip:{ title:"YTD total bugs", body:"Total bugs raised across all completed sprints this year. Useful for understanding the overall quality trend.", formula:"Σ bugs all sprints YTD" } },
+          { label:"Bugs Closed S12",   value:f0(s12.bc),    color:C.emerald,         sub:`${pct(s12.bc/s12.bugs)} closure rate`, tip:{ title:"Bugs closed", body:"Bugs resolved and closed this sprint. A closure rate above 90% means quality debt is being kept under control.", formula:"Closed bugs ÷ Total sprint bugs" } },
+        ].map(({ label, value, color, sub, tip }) => (
           <Card key={label} glow={color}>
-            <Label>{label}</Label>
+            <div style={{ display:"flex", alignItems:"center", gap:5, marginBottom:2 }}>
+              <Label>{label}</Label>
+              {tip && <InfoTip title={tip.title} body={tip.body} formula={tip.formula} />}
+            </div>
             <Big value={value} color={color} />
             <div style={{ fontSize:11, color:C.muted, marginTop:4 }}>{sub}</div>
           </Card>
         ))}
       </div>
       <Card>
-        <SectionHead sub="Bug count + defect density % · 20% threshold · last 10 sprints">Defect density trend</SectionHead>
+        <SectionHead sub="Bug count + defect density % · 20% threshold · last 10 sprints">Defect density trend <InfoTip title="Defect density trend" body="Bars show bug count per sprint, colour-coded by severity — green below 25%, amber 25–40%, red above 40%. The line shows defect density percentage. 20% is the healthy target." formula="Bugs ÷ Closed items" /></SectionHead>
         <ResponsiveContainer width="100%" height={240}>
           <ComposedChart data={SPRINTS.slice(-10).map(s=>({ name:s.id, bugs:s.bugs, density:+(s.dd*100).toFixed(1), dd:s.dd }))}>
             <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} vertical={false} />
@@ -541,7 +641,7 @@ function QualityPage({ SPRINTS, CURRENT, isDark }) {
         </ResponsiveContainer>
       </Card>
       <Card>
-        <SectionHead sub="Good <25% · Watch 25–40% · High >40%">Sprint quality scorecard</SectionHead>
+        <SectionHead sub="Good <25% · Watch 25–40% · High >40%">Sprint quality scorecard <InfoTip title="Quality scorecard" body="Each sprint rated by defect density. Green means Good (below 25%), Amber means Watch (25–40%), Red means High (above 40%). Track quality improvement sprint over sprint." /></SectionHead>
         <div style={{ display:"flex", flexDirection:"column", gap:2 }}>
           <div style={{ display:"grid", gridTemplateColumns:"50px 1fr 70px 65px 75px", gap:10, fontSize:10, fontWeight:600, color:C.dim, padding:"6px 0", letterSpacing:".06em", textTransform:"uppercase" }}>
             <span>Sprint</span><span>Density bar</span><span style={{ textAlign:"right" }}>Bugs</span><span style={{ textAlign:"right" }}>Density</span><span style={{ textAlign:"right" }}>Rating</span>
@@ -576,22 +676,25 @@ function FlowPage({ SPRINTS, CURRENT, isDark }) {
     <div style={{ display:"flex", flexDirection:"column", gap:18 }}>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(155px,1fr))", gap:12 }}>
         {[
-          { label:"Cycle P50 S12",      value:`${f1(s12.cy)}d`, color:s12.cy<=14?C.emerald:C.amber, sub:`was ${f1(s11.cy)}d prev` },
-          { label:"Lead P50 S12",       value:`${f1(s12.ld)}d`, color:s12.ld<=14?C.emerald:C.amber, sub:`was ${f1(s11.ld)}d prev` },
-          { label:"Flow Efficiency S12",value:`${f1(s12.cy/s12.ld*100)}%`, color:C.cyan, sub:"cycle÷lead time" },
-          { label:"WIP · Now",          value:f0(CURRENT.wip),  color:CURRENT.wip>150?C.rose:C.amber, sub:"active items" },
-          { label:"Stale · Now",        value:f0(CURRENT.stale),color:C.rose,  sub:">5 days no change" },
-          { label:"Open Items · Now",   value:f0(CURRENT.open), color:C.muted, sub:"New + Active + Ready" },
-        ].map(({ label, value, color, sub }) => (
+          { label:"Cycle P50 S12",      value:`${f1(s12.cy)}d`, color:s12.cy<=14?C.emerald:C.amber, sub:`was ${f1(s11.cy)}d prev`, tip:{ title:"Median cycle time", body:"Half of all S12 items were completed within this many days of starting work. Target is 14 days or fewer.", formula:"Median(days Active → Done)" } },
+          { label:"Lead P50 S12",       value:`${f1(s12.ld)}d`, color:s12.ld<=14?C.emerald:C.amber, sub:`was ${f1(s11.ld)}d prev`, tip:{ title:"Median lead time", body:"Half of all S12 items were completed within this many days of being created, including waiting time before work began.", formula:"Median(days Created → Done)" } },
+          { label:"Flow Efficiency S12",value:`${f1(s12.cy/s12.ld*100)}%`, color:C.cyan, sub:"cycle÷lead time", tip:{ title:"Flow efficiency", body:"Percentage of total lead time that items were actively being worked on. 15–40% is typical for software teams. Very high values may indicate items were rushed.", formula:"Cycle time ÷ Lead time" } },
+          { label:"WIP · Now",          value:f0(CURRENT.wip),  color:CURRENT.wip>150?C.rose:C.amber, sub:"active items", tip:{ title:"Work in progress", body:"Items currently in Active state. High WIP increases context-switching and slows individual items down. Target below 150.", formula:"Count of Active items" } },
+          { label:"Stale · Now",        value:f0(CURRENT.stale),color:C.rose,  sub:">5 days no change", tip:{ title:"Stale items", body:"Active items with no status change in more than 5 working days. These may be blocked or forgotten and each one needs follow-up.", formula:"Active items with no update over 5 days" } },
+          { label:"Open Items · Now",   value:f0(CURRENT.open), color:C.muted, sub:"New + Active + Ready", tip:{ title:"Open items", body:"Total items not yet done — includes New (not started), Ready (queued), and Active (in progress). Shows total backlog pressure on the team.", formula:"New + Active + Ready items" } },
+        ].map(({ label, value, color, sub, tip }) => (
           <Card key={label} glow={color}>
-            <Label>{label}</Label>
+            <div style={{ display:"flex", alignItems:"center", gap:5, marginBottom:2 }}>
+              <Label>{label}</Label>
+              {tip && <InfoTip title={tip.title} body={tip.body} formula={tip.formula} />}
+            </div>
             <Big value={value} color={color} />
             <div style={{ fontSize:11, color:C.muted, marginTop:4 }}>{sub}</div>
           </Card>
         ))}
       </div>
       <Card>
-        <SectionHead sub="P50 median · 14d target line · last 10 sprints">Cycle time vs lead time</SectionHead>
+        <SectionHead sub="P50 median · 14d target line · last 10 sprints">Cycle time vs lead time <InfoTip title="Cycle vs lead time" body="Amber line is cycle time — days from work started to done. Violet dashed line is lead time — days from created to done, including waiting. The gap between them shows how long items wait before work begins." /></SectionHead>
         <ResponsiveContainer width="100%" height={240}>
           <LineChart data={fd}>
             <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} vertical={false} />
@@ -607,7 +710,7 @@ function FlowPage({ SPRINTS, CURRENT, isDark }) {
       </Card>
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:18 }}>
         <Card>
-          <SectionHead sub="Cycle÷Lead · healthy 15–40%">Flow efficiency</SectionHead>
+          <SectionHead sub="Cycle÷Lead · healthy 15–40%">Flow efficiency <InfoTip title="Flow efficiency" body="Cycle time as a percentage of lead time per sprint. The healthy band is 15–40% for software teams. Very high values may indicate items were rushed through review." formula="Cycle time ÷ Lead time" /></SectionHead>
           <ResponsiveContainer width="100%" height={190}>
             <AreaChart data={fd}>
               <defs>
@@ -627,7 +730,7 @@ function FlowPage({ SPRINTS, CURRENT, isDark }) {
           </ResponsiveContainer>
         </Card>
         <Card>
-          <SectionHead sub="User stories vs bugs closed · last 10 sprints">Throughput mix</SectionHead>
+          <SectionHead sub="User stories vs bugs closed · last 10 sprints">Throughput mix <InfoTip title="Throughput mix" body="Items closed per sprint split by type — User Stories in blue and Bugs in red. A high bug proportion means quality issues are consuming delivery capacity." /></SectionHead>
           <ResponsiveContainer width="100%" height={190}>
             <BarChart data={SPRINTS.slice(-10).map(s=>({ name:s.id, stories:s.thru-s.bugs, bugs:s.bugs }))} barCategoryGap="25%">
               <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} vertical={false} />
@@ -700,7 +803,7 @@ function TeamsPage({ TEAMS, SPRINTS, isDark }) {
       </div>
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:18 }}>
         <Card>
-          <SectionHead sub="YTD velocity share by team">Velocity distribution</SectionHead>
+          <SectionHead sub="YTD velocity share by team">Velocity distribution <InfoTip title="Velocity distribution" body="How total story points this year split across teams. Larger share means more delivery. Use this to understand capacity balance." /></SectionHead>
           {TEAMS.map(t => (
             <div key={t.name} style={{ marginBottom:14, opacity:!active||active===t.name?1:0.3, transition:"opacity .2s" }}>
               <div style={{ display:"flex", justifyContent:"space-between", marginBottom:5 }}>
@@ -715,7 +818,7 @@ function TeamsPage({ TEAMS, SPRINTS, isDark }) {
           ))}
         </Card>
         <Card>
-          <SectionHead sub="Bug load by team">Bug comparison</SectionHead>
+          <SectionHead sub="Bug load by team">Bug comparison <InfoTip title="Bug load by team" body="Total bugs raised (light bar) vs bugs closed (solid bar) per team this year. A large gap between raised and closed means a growing quality backlog for that team." /></SectionHead>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={TEAMS.map(t => ({ name:t.name, bugs:t.bugs, closed:t.bugsClosed }))} layout="vertical">
               <CartesianGrid strokeDasharray="4 4" stroke={ga.grid} horizontal={false} />
@@ -739,7 +842,7 @@ export default function App() {
   const [data,     setData]     = useState(null);
   const [loading,  setLoading]  = useState(true);
   const [error,    setError]    = useState(null);
-  const [isDark,   setIsDark]   = useState(true);
+  const [isDark,   setIsDark]   = useState(false);
 
   // Apply theme to <html>
   useEffect(() => {
@@ -774,9 +877,13 @@ export default function App() {
 
   const { sprints: SPRINTS, current: CURRENT, teams: TEAMS, global: GLOBAL } = data;
 
-  const lastRefreshed = new Date(data.lastRefreshed).toLocaleString("en-US", {
-    month:"short", day:"numeric", hour:"2-digit", minute:"2-digit"
-  });
+  const lastRefreshed = (() => {
+    try {
+      return new Date(data.lastRefreshed).toLocaleString(undefined, {
+        month:"short", day:"numeric", hour:"2-digit", minute:"2-digit", timeZoneName:"short"
+      });
+    } catch(e) { return new Date(data.lastRefreshed).toLocaleString(); }
+  })();
 
   return (
     <div style={{ fontFamily:"'Inter','SF Pro Display',system-ui,sans-serif", background:"var(--bg)", minHeight:"100vh", color:"var(--text)", transition:"background .25s" }}>
