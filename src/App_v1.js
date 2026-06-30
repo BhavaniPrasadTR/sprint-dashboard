@@ -480,7 +480,7 @@ function CapacityPage({ TEAMS, isDark }) {
     try {
       const rows = collectAllRows();
       const token = prompt(
-        "Enter your GitHub Personal Access Token\n(needs workflow scope — stored only in memory, not saved anywhere)",
+        "Enter your GitHub PAT (workflow scope)\\nSame token used for the dashboard refresh action.",
         ""
       );
       if(!token){ setSaving(false); return; }
