@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-01T17:08:59.057420+00:00",
+  "lastRefreshed": "2026-07-01T17:49:19.840586+00:00",
   "sprints": [
     {
       "n": 1,
@@ -223,32 +223,32 @@
       "q": "Q2",
       "label": "Jun17",
       "vel": 293.0,
-      "comm": 349.0,
+      "comm": 348.0,
       "thru": 133,
-      "bugs": 56,
+      "bugs": 55,
       "dd": 0.391,
-      "cr": 0.8395,
-      "pi": 0.8395,
+      "cr": 0.842,
+      "pi": 0.842,
       "cy": 8.3,
       "ld": 16.5,
-      "wip": 16,
-      "us": 99,
+      "wip": 15,
+      "us": 95,
       "bc": 52
     }
   ],
   "current": {
     "vel": 6.0,
-    "comm": 654.0,
-    "remSP": 872.0,
+    "comm": 655.0,
+    "remSP": 809.0,
     "thru": 9,
-    "items": 289,
-    "bugs": 98,
-    "wip": 176,
-    "open": 280,
-    "stale": 242,
+    "items": 267,
+    "bugs": 99,
+    "wip": 177,
+    "open": 258,
+    "stale": 214,
     "cr": 0.0092,
     "pi": 0.0092,
-    "us": 191,
+    "us": 168,
     "bc": 6,
     "dd": 0.6667,
     "daysLeft": 7
@@ -263,7 +263,7 @@
       "bugsClosed": 210,
       "wip": 86,
       "cr": 0.8553,
-      "us": 417,
+      "us": 418,
       "stale": 333,
       "color": "#1D4ED8"
     },
@@ -272,12 +272,12 @@
       "vel": 1130.5,
       "comm": 1370.5,
       "thru": 335,
-      "bugs": 82,
+      "bugs": 83,
       "bugsClosed": 71,
       "wip": 49,
       "cr": 0.8249,
       "us": 382,
-      "stale": 112,
+      "stale": 113,
       "color": "#7C3AED"
     },
     {
@@ -311,14 +311,14 @@
     "totalVel": 3907.0,
     "totalComm": 4611.0,
     "totalThru": 1335,
-    "totalBugs": 686,
+    "totalBugs": 687,
     "totalWIP": 192,
     "cr": 0.8473,
-    "stale": 536,
-    "items": 1934,
+    "stale": 537,
+    "items": 1936,
     "l5": 1483.5,
     "avgSP": 2.93,
-    "us": 1248
+    "us": 1249
   },
   "memberStats": [
     {
@@ -4286,11 +4286,11 @@
       "member": "Ganesan, Nirubaa (TR Technology)",
       "sprint": "S13",
       "sn": 13,
-      "items": 3,
-      "sp": 4.0,
+      "items": 2,
+      "sp": 3.0,
       "done": 3.0,
       "closed": 2,
-      "wip": 1,
+      "wip": 0,
       "spill": 0
     },
     {
@@ -4382,12 +4382,12 @@
       "member": "Ranka, Shruti",
       "sprint": "S13",
       "sn": 13,
-      "items": 4,
-      "sp": 6.0,
+      "items": 3,
+      "sp": 5.0,
       "done": 5.0,
       "closed": 3,
       "wip": 0,
-      "spill": 1
+      "spill": 0
     },
     {
       "team": "Falcons",
@@ -7238,12 +7238,12 @@
       "member": "Shaik, Nagulameera",
       "sprint": "S13",
       "sn": 13,
-      "items": 11,
-      "sp": 13.0,
+      "items": 10,
+      "sp": 12.0,
       "done": 12.0,
       "closed": 10,
       "wip": 0,
-      "spill": 1
+      "spill": 0
     },
     {
       "team": "Titans",
@@ -7286,12 +7286,12 @@
       "member": "Vemula, Rakesh Goud (TR Technology)",
       "sprint": "S13",
       "sn": 13,
-      "items": 4,
-      "sp": 8.0,
+      "items": 3,
+      "sp": 7.0,
       "done": 7.0,
       "closed": 3,
       "wip": 0,
-      "spill": 1
+      "spill": 0
     }
   ]
 }
