@@ -1,22 +1,17 @@
 name: Daily Dashboard Refresh
 
 on:
-  # Two runs per day. Cron is UTC; IST = UTC+5:30.
+  # Runs every day at 7:00 AM UTC
   schedule:
-    - cron: '30 0 * * *'   # 00:30 UTC = 06:00 IST
-    - cron: '30 17 * * *'  # 17:30 UTC = 23:00 IST
+    - cron: '30 0 * * *'   # 6:00 AM IST
+    - cron: '30 17 * * *'  # 11:00 PM IST
 
-  # Manual trigger button in the Actions tab
+  # Manual trigger button in GitHub Actions tab
   workflow_dispatch:
-
+  
 permissions:
   contents: write
-
-# Don't let a manual run overlap a scheduled one
-concurrency:
-  group: dashboard-refresh
-  cancel-in-progress: false
-
+  
 jobs:
   refresh-and-deploy:
     runs-on: ubuntu-latest
@@ -45,39 +40,24 @@ jobs:
           PBI_DATASET_ID:    ${{ secrets.PBI_DATASET_ID }}
         run: python fetch_data.py
 
-      # Step 5 — Commit the refreshed data.json (audit trail + keeps the
-      #          scheduled workflow from being auto-disabled after 60 days)
-      - name: Commit refreshed data.json
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/data.json
-          git diff --cached --quiet || git commit -m "chore: daily data refresh [skip ci]"
-          git push
-
-      # Step 6 — Set up Node.js
+      # Step 5 — Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      # Step 7 — Install npm packages
+      # Step 6 — Install npm packages
       - name: Install npm packages
         run: npm ci
 
-      # Step 8 — Build the React app
-      #   CI=false stops CRA from turning ESLint warnings into build-breaking
-      #   errors — the most common reason a working deploy suddenly stops.
+      # Step 7 — Build the React app
       - name: Build dashboard
-        env:
-          CI: 'false'
         run: npm run build
 
-      # Step 9 — Deploy to GitHub Pages
+      # Step 8 — Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
-          publish_branch: gh-pages
