@@ -102,6 +102,26 @@ if curr_rows:
         "pi":round(float(r.get("[pi]",0) or 0),4),"us":int(r.get("[us]",0) or 0),
         "bc":int(r.get("[bc]",0) or 0),"dd":round(float(r.get("[dd]",0) or 0),4),"daysLeft":7}
 
+# Newest sprint that belongs in member stats = the CURRENT sprint. Anything with
+# a higher number is a not-yet-started (future) sprint and is dropped. Derived at
+# runtime so it never needs editing when the sprint rolls over.
+def snum_from_id(sid):
+    return int(sid[1:]) if sid and sid[1:].isdigit() else None
+
+current_sn = None
+if curr_rows:
+    _r = curr_rows[0]
+    _csn = _r.get("Dim_Iteration[SprintNumber]")
+    if _csn not in (None, ""):
+        current_sn = int(_csn)
+    else:
+        current_sn = snum_from_id(sprint_id(_r.get("Dim_Iteration[SprintName]", "")))
+# Fallback if the model didn't flag a current sprint: last past sprint + 1
+if current_sn is None and sprints:
+    _last = snum_from_id(sprints[-1]["id"])
+    current_sn = (_last + 1) if _last is not None else None
+print(f"  current sprint number = {current_sn}")
+
 # ── Teams ─────────────────────────────────────────────────────────────────────
 print("Fetching teams...")
 team_rows = dax(token, """
@@ -144,7 +164,7 @@ if glob_rows:
 
 # ── Member stats (Teams tab breakdown table) ──────────────────────────────────
 print("Fetching member stats...")
-# Filter future sprints by name (S14, S15 etc) — avoids cross-table ref issues
+# Pull all member-sprint rows; future sprints are trimmed in Python by current_sn
 ms_rows = dax(token, """
 EVALUATE
 ADDCOLUMNS(
@@ -153,9 +173,6 @@ ADDCOLUMNS(
             Fact_WorkItems[WorkItemType] IN {"User Story","Bug"}
             && NOT ISBLANK(Fact_WorkItems[AssignedToName])
             && NOT ISBLANK(Fact_WorkItems[TeamName])
-            && NOT(CONTAINSSTRING(Fact_WorkItems[SprintName], "S14"))
-            && NOT(CONTAINSSTRING(Fact_WorkItems[SprintName], "S15"))
-            && NOT(CONTAINSSTRING(Fact_WorkItems[SprintName], "S16"))
         ),
         Fact_WorkItems[TeamName],
         Fact_WorkItems[AssignedToName],
@@ -188,8 +205,8 @@ for r in ms_rows:
     snum = int(r.get("Fact_WorkItems[SprintNumber]", 0) or 0)
     sname = r.get("Fact_WorkItems[SprintName]", "")
     if snum == 0: continue
-    # Skip any future sprint names beyond what CONTAINSSTRING filters above
-    if any(f"S{n:02d}" in sname for n in range(14, 30)): continue
+    # Drop future sprints (beyond the current one) dynamically — no hardcoded IDs
+    if current_sn is not None and snum > current_sn: continue
     member_stats.append({
         "team":   r.get("Fact_WorkItems[TeamName]", ""),
         "member": r.get("Fact_WorkItems[AssignedToName]", ""),
