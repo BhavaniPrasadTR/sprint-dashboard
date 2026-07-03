@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-02T19:04:18.553234+00:00",
+  "lastRefreshed": "2026-07-03T04:23:51.202254+00:00",
   "sprints": [
     {
       "n": 1,
@@ -259,11 +259,11 @@
       "vel": 1424.5,
       "comm": 1644.5,
       "thru": 493,
-      "bugs": 422,
+      "bugs": 421,
       "bugsClosed": 211,
       "wip": 90,
       "cr": 0.8662,
-      "us": 427,
+      "us": 428,
       "stale": 331,
       "color": "#1D4ED8"
     },
@@ -311,14 +311,14 @@
     "totalVel": 3945.0,
     "totalComm": 4644.0,
     "totalThru": 1350,
-    "totalBugs": 692,
+    "totalBugs": 691,
     "totalWIP": 204,
     "cr": 0.8495,
     "stale": 538,
     "items": 1964,
     "l5": 1521.5,
     "avgSP": 2.92,
-    "us": 1272
+    "us": 1273
   },
   "memberStats": [
     {
