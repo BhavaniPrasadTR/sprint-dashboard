@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-03T18:46:12.774646+00:00",
+  "lastRefreshed": "2026-07-04T04:08:56.399992+00:00",
   "sprints": [
     {
       "n": 1,
@@ -240,17 +240,17 @@
     "vel": 43.0,
     "comm": 725.0,
     "remSP": 858.5,
-    "thru": 24,
-    "items": 311,
-    "bugs": 114,
-    "wip": 202,
-    "open": 287,
-    "stale": 227,
+    "thru": 25,
+    "items": 317,
+    "bugs": 120,
+    "wip": 204,
+    "open": 292,
+    "stale": 226,
     "cr": 0.0593,
     "pi": 0.0593,
     "us": 197,
-    "bc": 8,
-    "dd": 0.3333,
+    "bc": 9,
+    "dd": 0.36,
     "daysLeft": 7
   },
   "teams": [
@@ -258,13 +258,13 @@
       "name": "Falcons",
       "vel": 1424.5,
       "comm": 1644.5,
-      "thru": 493,
-      "bugs": 421,
-      "bugsClosed": 211,
+      "thru": 494,
+      "bugs": 425,
+      "bugsClosed": 212,
       "wip": 91,
       "cr": 0.8662,
       "us": 427,
-      "stale": 329,
+      "stale": 328,
       "color": "#1D4ED8"
     },
     {
@@ -285,9 +285,9 @@
       "vel": 930.5,
       "comm": 1093.5,
       "thru": 307,
-      "bugs": 105,
+      "bugs": 107,
       "bugsClosed": 90,
-      "wip": 39,
+      "wip": 41,
       "cr": 0.8509,
       "us": 262,
       "stale": 39,
@@ -310,12 +310,12 @@
   "global": {
     "totalVel": 3951.0,
     "totalComm": 4656.0,
-    "totalThru": 1352,
-    "totalBugs": 691,
-    "totalWIP": 207,
+    "totalThru": 1353,
+    "totalBugs": 697,
+    "totalWIP": 209,
     "cr": 0.8486,
-    "stale": 532,
-    "items": 1963,
+    "stale": 531,
+    "items": 1969,
     "l5": 1527.5,
     "avgSP": 2.92,
     "us": 1272
@@ -1946,11 +1946,11 @@
       "member": "Mishra, Brijendra",
       "sprint": "S14",
       "sn": 14,
-      "items": 6,
+      "items": 8,
       "sp": 29.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 5,
+      "wip": 7,
       "spill": 1
     },
     {
@@ -4691,6 +4691,18 @@
     },
     {
       "team": "Falcons",
+      "member": "Chura, Katsiaryna",
+      "sprint": "S14",
+      "sn": 14,
+      "items": 1,
+      "sp": 0.0,
+      "done": 0.0,
+      "closed": 1,
+      "wip": 0,
+      "spill": 0
+    },
+    {
+      "team": "Falcons",
       "member": "Ganduri, Keerthi (TR Technology)",
       "sprint": "S14",
       "sn": 14,
@@ -4850,12 +4862,12 @@
       "member": "Saxena, Aditi",
       "sprint": "S14",
       "sn": 14,
-      "items": 8,
+      "items": 7,
       "sp": 18.0,
       "done": 8.0,
       "closed": 1,
       "wip": 2,
-      "spill": 5
+      "spill": 4
     },
     {
       "team": "Falcons",
