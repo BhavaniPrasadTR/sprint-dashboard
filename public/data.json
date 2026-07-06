@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-05T18:36:23.358639+00:00",
+  "lastRefreshed": "2026-07-06T04:48:19.434761+00:00",
   "sprints": [
     {
       "n": 1,
@@ -241,11 +241,11 @@
     "comm": 725.0,
     "remSP": 858.5,
     "thru": 25,
-    "items": 317,
-    "bugs": 120,
-    "wip": 208,
-    "open": 292,
-    "stale": 230,
+    "items": 319,
+    "bugs": 122,
+    "wip": 210,
+    "open": 294,
+    "stale": 238,
     "cr": 0.0593,
     "pi": 0.0593,
     "us": 197,
@@ -259,12 +259,12 @@
       "vel": 1424.5,
       "comm": 1644.5,
       "thru": 494,
-      "bugs": 421,
+      "bugs": 423,
       "bugsClosed": 212,
-      "wip": 91,
+      "wip": 93,
       "cr": 0.8662,
       "us": 427,
-      "stale": 330,
+      "stale": 334,
       "color": "#1D4ED8"
     },
     {
@@ -277,7 +277,7 @@
       "wip": 57,
       "cr": 0.8144,
       "us": 390,
-      "stale": 114,
+      "stale": 121,
       "color": "#7C3AED"
     },
     {
@@ -303,7 +303,7 @@
       "wip": 20,
       "cr": 0.8802,
       "us": 193,
-      "stale": 52,
+      "stale": 53,
       "color": "#059669"
     }
   ],
@@ -311,11 +311,11 @@
     "totalVel": 3951.0,
     "totalComm": 4656.0,
     "totalThru": 1353,
-    "totalBugs": 697,
-    "totalWIP": 213,
+    "totalBugs": 699,
+    "totalWIP": 215,
     "cr": 0.8486,
-    "stale": 536,
-    "items": 1969,
+    "stale": 548,
+    "items": 1971,
     "l5": 1527.5,
     "avgSP": 2.92,
     "us": 1272
@@ -4658,11 +4658,11 @@
       "member": "Bhavani Prasad Lokarey",
       "sprint": "S14",
       "sn": 14,
-      "items": 1,
+      "items": 2,
       "sp": 0.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 0,
+      "wip": 1,
       "spill": 1
     },
     {
@@ -4790,11 +4790,11 @@
       "member": "Lara, Mariana (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 12,
-      "sp": 40.0,
+      "items": 11,
+      "sp": 32.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 10,
+      "wip": 9,
       "spill": 2
     },
     {
@@ -4814,11 +4814,11 @@
       "member": "MuraliKrishnan, Athithyaraj",
       "sprint": "S14",
       "sn": 14,
-      "items": 8,
+      "items": 9,
       "sp": 19.0,
       "done": 8.0,
       "closed": 2,
-      "wip": 5,
+      "wip": 6,
       "spill": 1
     },
     {
@@ -4922,11 +4922,11 @@
       "member": "Vempati, Krishna Chaitanya (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 4,
-      "sp": 5.0,
+      "items": 5,
+      "sp": 13.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 3,
+      "wip": 4,
       "spill": 1
     },
     {
