@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-07T19:19:56.483691+00:00",
+  "lastRefreshed": "2026-07-08T03:52:23.466110+00:00",
   "sprints": [
     {
       "n": 1,
@@ -237,17 +237,17 @@
     }
   ],
   "current": {
-    "vel": 78.0,
-    "comm": 762.0,
-    "remSP": 842.5,
+    "vel": 79.0,
+    "comm": 765.0,
+    "remSP": 844.5,
     "thru": 40,
-    "items": 331,
-    "bugs": 129,
-    "wip": 208,
-    "open": 291,
-    "stale": 235,
-    "cr": 0.1024,
-    "pi": 0.1024,
+    "items": 332,
+    "bugs": 130,
+    "wip": 211,
+    "open": 292,
+    "stale": 260,
+    "cr": 0.1033,
+    "pi": 0.1033,
     "us": 202,
     "bc": 16,
     "dd": 0.4,
@@ -259,12 +259,12 @@
       "vel": 1438.5,
       "comm": 1655.5,
       "thru": 498,
-      "bugs": 425,
+      "bugs": 426,
       "bugsClosed": 212,
-      "wip": 95,
+      "wip": 96,
       "cr": 0.8689,
       "us": 427,
-      "stale": 335,
+      "stale": 344,
       "color": "#1D4ED8"
     },
     {
@@ -274,23 +274,23 @@
       "thru": 347,
       "bugs": 91,
       "bugsClosed": 75,
-      "wip": 56,
+      "wip": 57,
       "cr": 0.8066,
       "us": 395,
-      "stale": 120,
+      "stale": 128,
       "color": "#7C3AED"
     },
     {
       "name": "Dragons",
-      "vel": 946.5,
-      "comm": 1095.5,
+      "vel": 947.5,
+      "comm": 1098.5,
       "thru": 311,
       "bugs": 113,
       "bugsClosed": 92,
-      "wip": 42,
-      "cr": 0.864,
-      "us": 266,
-      "stale": 40,
+      "wip": 43,
+      "cr": 0.8625,
+      "us": 268,
+      "stale": 45,
       "color": "#0891B2"
     },
     {
@@ -303,22 +303,22 @@
       "wip": 21,
       "cr": 0.861,
       "us": 193,
-      "stale": 49,
+      "stale": 52,
       "color": "#059669"
     }
   ],
   "global": {
-    "totalVel": 3986.0,
-    "totalComm": 4700.0,
+    "totalVel": 3987.0,
+    "totalComm": 4703.0,
     "totalThru": 1371,
-    "totalBugs": 706,
-    "totalWIP": 214,
-    "cr": 0.8481,
-    "stale": 544,
-    "items": 1987,
-    "l5": 1562.5,
+    "totalBugs": 707,
+    "totalWIP": 217,
+    "cr": 0.8478,
+    "stale": 569,
+    "items": 1990,
+    "l5": 1563.5,
     "avgSP": 2.91,
-    "us": 1281
+    "us": 1283
   },
   "memberStats": [
     {
@@ -1959,11 +1959,11 @@
       "sprint": "S14",
       "sn": 14,
       "items": 7,
-      "sp": 29.0,
-      "done": 8.0,
+      "sp": 32.0,
+      "done": 9.0,
       "closed": 2,
-      "wip": 3,
-      "spill": 2
+      "wip": 4,
+      "spill": 1
     },
     {
       "team": "Dragons",
@@ -4802,11 +4802,11 @@
       "member": "Lara, Mariana (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 12,
+      "items": 13,
       "sp": 32.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 9,
+      "wip": 10,
       "spill": 3
     },
     {
@@ -8070,8 +8070,8 @@
       "sp": 10.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 1,
-      "spill": 2
+      "wip": 2,
+      "spill": 1
     },
     {
       "team": "Titans",
