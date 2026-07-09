@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-09T04:32:32.183921+00:00",
+  "lastRefreshed": "2026-07-09T19:07:19.254539+00:00",
   "sprints": [
     {
       "n": 1,
@@ -237,60 +237,60 @@
     }
   ],
   "current": {
-    "vel": 95.0,
-    "comm": 789.0,
-    "remSP": 838.5,
-    "thru": 46,
-    "items": 336,
-    "bugs": 132,
-    "wip": 212,
-    "open": 290,
-    "stale": 257,
-    "cr": 0.1204,
-    "pi": 0.1204,
-    "us": 204,
-    "bc": 20,
-    "dd": 0.4348,
+    "vel": 112.0,
+    "comm": 799.0,
+    "remSP": 823.5,
+    "thru": 52,
+    "items": 341,
+    "bugs": 134,
+    "wip": 213,
+    "open": 289,
+    "stale": 249,
+    "cr": 0.1402,
+    "pi": 0.1402,
+    "us": 207,
+    "bc": 21,
+    "dd": 0.4038,
     "daysLeft": 7
   },
   "teams": [
     {
       "name": "Falcons",
-      "vel": 1451.5,
-      "comm": 1661.5,
-      "thru": 501,
-      "bugs": 429,
+      "vel": 1460.5,
+      "comm": 1663.5,
+      "thru": 503,
+      "bugs": 430,
       "bugsClosed": 213,
-      "wip": 97,
-      "cr": 0.8736,
-      "us": 428,
-      "stale": 340,
+      "wip": 98,
+      "cr": 0.878,
+      "us": 431,
+      "stale": 338,
       "color": "#1D4ED8"
     },
     {
       "name": "Titans",
-      "vel": 1142.5,
-      "comm": 1429.5,
-      "thru": 348,
+      "vel": 1145.5,
+      "comm": 1437.5,
+      "thru": 349,
       "bugs": 90,
       "bugsClosed": 76,
-      "wip": 59,
-      "cr": 0.7992,
-      "us": 395,
-      "stale": 126,
+      "wip": 60,
+      "cr": 0.7969,
+      "us": 394,
+      "stale": 122,
       "color": "#7C3AED"
     },
     {
       "name": "Dragons",
-      "vel": 950.5,
+      "vel": 955.5,
       "comm": 1098.5,
-      "thru": 313,
-      "bugs": 114,
-      "bugsClosed": 94,
-      "wip": 41,
-      "cr": 0.8653,
+      "thru": 316,
+      "bugs": 115,
+      "bugsClosed": 95,
+      "wip": 40,
+      "cr": 0.8698,
       "us": 268,
-      "stale": 46,
+      "stale": 43,
       "color": "#0891B2"
     },
     {
@@ -308,17 +308,17 @@
     }
   ],
   "global": {
-    "totalVel": 4003.0,
-    "totalComm": 4722.0,
-    "totalThru": 1377,
-    "totalBugs": 710,
-    "totalWIP": 218,
-    "cr": 0.8477,
-    "stale": 564,
-    "items": 1994,
-    "l5": 1579.5,
+    "totalVel": 4020.0,
+    "totalComm": 4732.0,
+    "totalThru": 1383,
+    "totalBugs": 712,
+    "totalWIP": 219,
+    "cr": 0.8495,
+    "stale": 555,
+    "items": 1998,
+    "l5": 1596.5,
     "avgSP": 2.91,
-    "us": 1284
+    "us": 1286
   },
   "memberStats": [
     {
@@ -1874,12 +1874,12 @@
       "member": "Irabatti, Sunil",
       "sprint": "S14",
       "sn": 14,
-      "items": 4,
-      "sp": 11.0,
+      "items": 2,
+      "sp": 3.0,
       "done": 3.0,
-      "closed": 1,
-      "wip": 2,
-      "spill": 1
+      "closed": 2,
+      "wip": 0,
+      "spill": 0
     },
     {
       "team": "Dragons",
@@ -1898,11 +1898,11 @@
       "member": "Kumar Chintala, Uday",
       "sprint": "S14",
       "sn": 14,
-      "items": 3,
-      "sp": 8.0,
+      "items": 2,
+      "sp": 0.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 3,
+      "wip": 2,
       "spill": 0
     },
     {
@@ -1911,7 +1911,7 @@
       "sprint": "S14",
       "sn": 14,
       "items": 3,
-      "sp": 11.0,
+      "sp": 9.0,
       "done": 0.0,
       "closed": 0,
       "wip": 2,
@@ -1922,11 +1922,11 @@
       "member": "Kurware, Deepak",
       "sprint": "S14",
       "sn": 14,
-      "items": 5,
+      "items": 6,
       "sp": 20.0,
       "done": 1.0,
       "closed": 1,
-      "wip": 3,
+      "wip": 4,
       "spill": 1
     },
     {
@@ -1946,30 +1946,6 @@
       "member": "Maheshwari, Udit",
       "sprint": "S14",
       "sn": 14,
-      "items": 1,
-      "sp": 0.0,
-      "done": 0.0,
-      "closed": 0,
-      "wip": 1,
-      "spill": 0
-    },
-    {
-      "team": "Dragons",
-      "member": "Mishra, Brijendra",
-      "sprint": "S14",
-      "sn": 14,
-      "items": 9,
-      "sp": 39.0,
-      "done": 9.0,
-      "closed": 2,
-      "wip": 6,
-      "spill": 1
-    },
-    {
-      "team": "Dragons",
-      "member": "Nadapara, Harsh",
-      "sprint": "S14",
-      "sn": 14,
       "items": 2,
       "sp": 5.0,
       "done": 5.0,
@@ -1979,14 +1955,38 @@
     },
     {
       "team": "Dragons",
+      "member": "Mishra, Brijendra",
+      "sprint": "S14",
+      "sn": 14,
+      "items": 7,
+      "sp": 33.0,
+      "done": 9.0,
+      "closed": 2,
+      "wip": 4,
+      "spill": 1
+    },
+    {
+      "team": "Dragons",
+      "member": "Nadapara, Harsh",
+      "sprint": "S14",
+      "sn": 14,
+      "items": 1,
+      "sp": 5.0,
+      "done": 5.0,
+      "closed": 1,
+      "wip": 0,
+      "spill": 0
+    },
+    {
+      "team": "Dragons",
       "member": "Naidu Dulam, Manikanta",
       "sprint": "S14",
       "sn": 14,
       "items": 3,
-      "sp": 3.0,
+      "sp": 0.0,
       "done": 0.0,
-      "closed": 1,
-      "wip": 2,
+      "closed": 2,
+      "wip": 1,
       "spill": 0
     },
     {
@@ -2018,11 +2018,11 @@
       "member": "Raval, Nayan",
       "sprint": "S14",
       "sn": 14,
-      "items": 2,
+      "items": 3,
       "sp": 8.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 2,
+      "wip": 3,
       "spill": 0
     },
     {
@@ -2030,11 +2030,11 @@
       "member": "Vempati, Krishna Chaitanya (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 1,
-      "sp": 0.0,
+      "items": 5,
+      "sp": 22.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 1,
+      "wip": 5,
       "spill": 0
     },
     {
@@ -4646,11 +4646,11 @@
       "member": "Akula, Navya",
       "sprint": "S14",
       "sn": 14,
-      "items": 4,
-      "sp": 24.0,
+      "items": 5,
+      "sp": 29.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 4,
+      "wip": 5,
       "spill": 0
     },
     {
@@ -4686,8 +4686,8 @@
       "sp": 3.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 8,
-      "spill": 2
+      "wip": 9,
+      "spill": 1
     },
     {
       "team": "Falcons",
@@ -4706,11 +4706,11 @@
       "member": "Chura, Katsiaryna",
       "sprint": "S14",
       "sn": 14,
-      "items": 2,
-      "sp": 8.0,
+      "items": 3,
+      "sp": 11.0,
       "done": 0.0,
       "closed": 1,
-      "wip": 1,
+      "wip": 2,
       "spill": 0
     },
     {
@@ -4718,11 +4718,11 @@
       "member": "Ganduri, Keerthi (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 2,
-      "sp": 5.0,
+      "items": 4,
+      "sp": 6.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 2,
+      "wip": 4,
       "spill": 0
     },
     {
@@ -4730,11 +4730,11 @@
       "member": "Ganesan, Nirubaa (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 3,
+      "items": 4,
       "sp": 4.0,
       "done": 1.0,
       "closed": 1,
-      "wip": 1,
+      "wip": 2,
       "spill": 1
     },
     {
@@ -4742,10 +4742,10 @@
       "member": "Gonzalez, Daniel (TR Product)",
       "sprint": "S14",
       "sn": 14,
-      "items": 1,
-      "sp": 0.0,
-      "done": 0.0,
-      "closed": 0,
+      "items": 2,
+      "sp": 8.0,
+      "done": 8.0,
+      "closed": 1,
       "wip": 1,
       "spill": 0
     },
@@ -4754,11 +4754,11 @@
       "member": "Hernandez, Mauricio Alejandro (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 12,
-      "sp": 33.0,
+      "items": 11,
+      "sp": 28.0,
       "done": 6.0,
       "closed": 2,
-      "wip": 10,
+      "wip": 9,
       "spill": 0
     },
     {
@@ -4766,11 +4766,11 @@
       "member": "Katroju, Siddartha",
       "sprint": "S14",
       "sn": 14,
-      "items": 9,
-      "sp": 13.0,
+      "items": 12,
+      "sp": 19.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 9,
+      "wip": 12,
       "spill": 0
     },
     {
@@ -4838,11 +4838,11 @@
       "member": "MuraliKrishnan, Athithyaraj",
       "sprint": "S14",
       "sn": 14,
-      "items": 10,
+      "items": 9,
       "sp": 22.0,
       "done": 11.0,
       "closed": 2,
-      "wip": 7,
+      "wip": 6,
       "spill": 1
     },
     {
@@ -4850,11 +4850,11 @@
       "member": "Nigam, Harshita",
       "sprint": "S14",
       "sn": 14,
-      "items": 8,
-      "sp": 34.0,
+      "items": 6,
+      "sp": 28.0,
       "done": 11.0,
       "closed": 2,
-      "wip": 5,
+      "wip": 3,
       "spill": 1
     },
     {
@@ -4862,11 +4862,11 @@
       "member": "Parate, Kamini",
       "sprint": "S14",
       "sn": 14,
-      "items": 3,
-      "sp": 11.0,
+      "items": 2,
+      "sp": 3.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 3,
+      "wip": 2,
       "spill": 0
     },
     {
@@ -4895,6 +4895,18 @@
     },
     {
       "team": "Falcons",
+      "member": "Raval, Nayan",
+      "sprint": "S14",
+      "sn": 14,
+      "items": 1,
+      "sp": 8.0,
+      "done": 0.0,
+      "closed": 0,
+      "wip": 1,
+      "spill": 0
+    },
+    {
+      "team": "Falcons",
       "member": "Saxena, Aditi",
       "sprint": "S14",
       "sn": 14,
@@ -4904,6 +4916,18 @@
       "closed": 1,
       "wip": 4,
       "spill": 3
+    },
+    {
+      "team": "Falcons",
+      "member": "Shaik, Nagulameera",
+      "sprint": "S14",
+      "sn": 14,
+      "items": 1,
+      "sp": 0.0,
+      "done": 0.0,
+      "closed": 0,
+      "wip": 1,
+      "spill": 0
     },
     {
       "team": "Falcons",
@@ -4923,7 +4947,7 @@
       "sprint": "S14",
       "sn": 14,
       "items": 6,
-      "sp": 15.0,
+      "sp": 7.0,
       "done": 1.0,
       "closed": 1,
       "wip": 4,
@@ -4946,11 +4970,11 @@
       "member": "Vempati, Krishna Chaitanya (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 8,
-      "sp": 8.0,
-      "done": 0.0,
-      "closed": 0,
-      "wip": 7,
+      "items": 3,
+      "sp": 6.0,
+      "done": 1.0,
+      "closed": 1,
+      "wip": 1,
       "spill": 1
     },
     {
@@ -4958,11 +4982,11 @@
       "member": "Vemula, Rakesh Goud (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 2,
+      "items": 3,
       "sp": 8.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 2,
+      "wip": 3,
       "spill": 0
     },
     {
@@ -5882,11 +5906,11 @@
       "member": "Chura, Katsiaryna",
       "sprint": "S14",
       "sn": 14,
-      "items": 7,
-      "sp": 13.0,
+      "items": 9,
+      "sp": 23.0,
       "done": 2.0,
       "closed": 2,
-      "wip": 1,
+      "wip": 3,
       "spill": 4
     },
     {
@@ -5930,11 +5954,11 @@
       "member": "Mk, Mitra (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 6,
-      "sp": 5.0,
+      "items": 5,
+      "sp": 0.0,
       "done": 0.0,
       "closed": 2,
-      "wip": 3,
+      "wip": 2,
       "spill": 1
     },
     {
@@ -5942,11 +5966,11 @@
       "member": "Parate, Kamini",
       "sprint": "S14",
       "sn": 14,
-      "items": 3,
+      "items": 5,
       "sp": 12.0,
       "done": 1.0,
       "closed": 1,
-      "wip": 1,
+      "wip": 3,
       "spill": 1
     },
     {
@@ -5990,11 +6014,11 @@
       "member": "Vempati, Krishna Chaitanya (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 4,
-      "sp": 8.0,
+      "items": 1,
+      "sp": 3.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 4,
+      "wip": 1,
       "spill": 0
     },
     {
@@ -7970,11 +7994,11 @@
       "member": "Akula, Navya",
       "sprint": "S14",
       "sn": 14,
-      "items": 3,
-      "sp": 11.0,
+      "items": 4,
+      "sp": 19.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 2,
+      "wip": 3,
       "spill": 1
     },
     {
@@ -8162,11 +8186,11 @@
       "member": "Papayagari, Preethi",
       "sprint": "S14",
       "sn": 14,
-      "items": 3,
-      "sp": 6.0,
+      "items": 4,
+      "sp": 9.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 3,
+      "wip": 4,
       "spill": 0
     },
     {
@@ -8202,8 +8226,8 @@
       "sp": 26.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 2,
-      "spill": 2
+      "wip": 3,
+      "spill": 1
     },
     {
       "team": "Titans",
@@ -8222,11 +8246,11 @@
       "member": "Sangale, Abasaheb",
       "sprint": "S14",
       "sn": 14,
-      "items": 4,
-      "sp": 19.0,
-      "done": 3.0,
-      "closed": 1,
-      "wip": 3,
+      "items": 3,
+      "sp": 11.0,
+      "done": 6.0,
+      "closed": 2,
+      "wip": 1,
       "spill": 0
     },
     {
@@ -8294,12 +8318,12 @@
       "member": "Vemula, Rakesh Goud (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 9,
-      "sp": 32.0,
+      "items": 8,
+      "sp": 29.0,
       "done": 1.0,
       "closed": 1,
       "wip": 6,
-      "spill": 2
+      "spill": 1
     }
   ]
 }
