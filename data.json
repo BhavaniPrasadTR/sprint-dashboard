@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-09T19:07:19.254539+00:00",
+  "lastRefreshed": "2026-07-10T04:30:27.398972+00:00",
   "sprints": [
     {
       "n": 1,
@@ -238,33 +238,33 @@
   ],
   "current": {
     "vel": 112.0,
-    "comm": 799.0,
-    "remSP": 823.5,
-    "thru": 52,
+    "comm": 806.0,
+    "remSP": 825.5,
+    "thru": 53,
     "items": 341,
     "bugs": 134,
-    "wip": 213,
-    "open": 289,
+    "wip": 215,
+    "open": 288,
     "stale": 249,
-    "cr": 0.1402,
-    "pi": 0.1402,
+    "cr": 0.139,
+    "pi": 0.139,
     "us": 207,
-    "bc": 21,
-    "dd": 0.4038,
+    "bc": 22,
+    "dd": 0.4151,
     "daysLeft": 7
   },
   "teams": [
     {
       "name": "Falcons",
       "vel": 1460.5,
-      "comm": 1663.5,
-      "thru": 503,
+      "comm": 1670.5,
+      "thru": 504,
       "bugs": 430,
-      "bugsClosed": 213,
-      "wip": 98,
-      "cr": 0.878,
+      "bugsClosed": 214,
+      "wip": 100,
+      "cr": 0.8743,
       "us": 431,
-      "stale": 338,
+      "stale": 334,
       "color": "#1D4ED8"
     },
     {
@@ -290,7 +290,7 @@
       "wip": 40,
       "cr": 0.8698,
       "us": 268,
-      "stale": 43,
+      "stale": 47,
       "color": "#0891B2"
     },
     {
@@ -309,15 +309,15 @@
   ],
   "global": {
     "totalVel": 4020.0,
-    "totalComm": 4732.0,
-    "totalThru": 1383,
+    "totalComm": 4739.0,
+    "totalThru": 1384,
     "totalBugs": 712,
-    "totalWIP": 219,
-    "cr": 0.8495,
+    "totalWIP": 221,
+    "cr": 0.8483,
     "stale": 555,
     "items": 1998,
     "l5": 1596.5,
-    "avgSP": 2.91,
+    "avgSP": 2.9,
     "us": 1286
   },
   "memberStats": [
@@ -4682,10 +4682,10 @@
       "member": "Bring, Iker (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 10,
+      "items": 11,
       "sp": 3.0,
       "done": 0.0,
-      "closed": 0,
+      "closed": 1,
       "wip": 9,
       "spill": 1
     },
@@ -4730,11 +4730,11 @@
       "member": "Ganesan, Nirubaa (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 4,
+      "items": 3,
       "sp": 4.0,
       "done": 1.0,
       "closed": 1,
-      "wip": 2,
+      "wip": 1,
       "spill": 1
     },
     {
@@ -4802,12 +4802,12 @@
       "member": "Lara, Mariana (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 13,
+      "items": 12,
       "sp": 27.0,
       "done": 10.0,
       "closed": 2,
-      "wip": 7,
-      "spill": 4
+      "wip": 9,
+      "spill": 1
     },
     {
       "team": "Falcons",
@@ -4970,11 +4970,11 @@
       "member": "Vempati, Krishna Chaitanya (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 3,
-      "sp": 6.0,
+      "items": 4,
+      "sp": 8.0,
       "done": 1.0,
       "closed": 1,
-      "wip": 1,
+      "wip": 2,
       "spill": 1
     },
     {
