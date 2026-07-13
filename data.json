@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-12T18:25:58.743491+00:00",
+  "lastRefreshed": "2026-07-13T04:07:37.767101+00:00",
   "sprints": [
     {
       "n": 1,
@@ -245,7 +245,7 @@
     "bugs": 138,
     "wip": 208,
     "open": 275,
-    "stale": 243,
+    "stale": 250,
     "cr": 0.1824,
     "pi": 0.1824,
     "us": 208,
@@ -264,7 +264,7 @@
       "wip": 97,
       "cr": 0.8809,
       "us": 431,
-      "stale": 332,
+      "stale": 335,
       "color": "#1D4ED8"
     },
     {
@@ -277,7 +277,7 @@
       "wip": 60,
       "cr": 0.798,
       "us": 394,
-      "stale": 122,
+      "stale": 126,
       "color": "#7C3AED"
     },
     {
@@ -290,7 +290,7 @@
       "wip": 38,
       "cr": 0.8793,
       "us": 269,
-      "stale": 44,
+      "stale": 47,
       "color": "#0891B2"
     },
     {
@@ -314,7 +314,7 @@
     "totalBugs": 716,
     "totalWIP": 215,
     "cr": 0.8541,
-    "stale": 551,
+    "stale": 561,
     "items": 2003,
     "l5": 1633.5,
     "avgSP": 2.89,
@@ -1994,11 +1994,11 @@
       "member": "Parate, Kamini",
       "sprint": "S14",
       "sn": 14,
-      "items": 1,
-      "sp": 8.0,
+      "items": 2,
+      "sp": 16.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 1,
+      "wip": 2,
       "spill": 0
     },
     {
@@ -2042,11 +2042,11 @@
       "member": "Vempati, Krishna Chaitanya (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 2,
-      "sp": 9.0,
+      "items": 1,
+      "sp": 1.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 2,
+      "wip": 1,
       "spill": 0
     },
     {
