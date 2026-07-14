@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-13T18:55:04.584706+00:00",
+  "lastRefreshed": "2026-07-14T03:42:48.013393+00:00",
   "sprints": [
     {
       "n": 1,
@@ -237,34 +237,34 @@
     }
   ],
   "current": {
-    "vel": 185.0,
-    "comm": 836.0,
-    "remSP": 768.5,
-    "thru": 81,
-    "items": 352,
-    "bugs": 143,
+    "vel": 190.0,
+    "comm": 839.0,
+    "remSP": 765.5,
+    "thru": 82,
+    "items": 350,
+    "bugs": 141,
     "wip": 204,
-    "open": 271,
-    "stale": 238,
-    "cr": 0.2213,
-    "pi": 0.2213,
+    "open": 268,
+    "stale": 243,
+    "cr": 0.2265,
+    "pi": 0.2265,
     "us": 209,
     "bc": 38,
-    "dd": 0.4691,
+    "dd": 0.4634,
     "daysLeft": 7
   },
   "teams": [
     {
       "name": "Falcons",
-      "vel": 1486.5,
-      "comm": 1681.5,
-      "thru": 518,
-      "bugs": 438,
+      "vel": 1491.5,
+      "comm": 1684.5,
+      "thru": 519,
+      "bugs": 437,
       "bugsClosed": 225,
       "wip": 93,
-      "cr": 0.884,
+      "cr": 0.8854,
       "us": 432,
-      "stale": 330,
+      "stale": 333,
       "color": "#1D4ED8"
     },
     {
@@ -272,12 +272,12 @@
       "vel": 1161.5,
       "comm": 1447.5,
       "thru": 352,
-      "bugs": 91,
+      "bugs": 92,
       "bugsClosed": 77,
       "wip": 60,
       "cr": 0.8024,
       "us": 394,
-      "stale": 123,
+      "stale": 122,
       "color": "#7C3AED"
     },
     {
@@ -290,7 +290,7 @@
       "wip": 39,
       "cr": 0.8799,
       "us": 269,
-      "stale": 42,
+      "stale": 43,
       "color": "#0891B2"
     },
     {
@@ -308,15 +308,15 @@
     }
   ],
   "global": {
-    "totalVel": 4093.0,
-    "totalComm": 4777.0,
-    "totalThru": 1412,
+    "totalVel": 4098.0,
+    "totalComm": 4780.0,
+    "totalThru": 1413,
     "totalBugs": 721,
     "totalWIP": 212,
-    "cr": 0.8568,
-    "stale": 548,
+    "cr": 0.8573,
+    "stale": 551,
     "items": 2009,
-    "l5": 1669.5,
+    "l5": 1674.5,
     "avgSP": 2.9,
     "us": 1288
   },
@@ -4754,12 +4754,12 @@
       "member": "Ganesan, Nirubaa (TR Technology)",
       "sprint": "S14",
       "sn": 14,
-      "items": 4,
-      "sp": 14.0,
+      "items": 3,
+      "sp": 9.0,
       "done": 1.0,
       "closed": 1,
       "wip": 2,
-      "spill": 1
+      "spill": 0
     },
     {
       "team": "Falcons",
@@ -4934,10 +4934,10 @@
       "member": "Saxena, Aditi",
       "sprint": "S14",
       "sn": 14,
-      "items": 7,
-      "sp": 18.0,
-      "done": 13.0,
-      "closed": 2,
+      "items": 8,
+      "sp": 23.0,
+      "done": 18.0,
+      "closed": 3,
       "wip": 2,
       "spill": 3
     },
@@ -4970,12 +4970,12 @@
       "member": "Tankala, Harsha Vardhan",
       "sprint": "S14",
       "sn": 14,
-      "items": 8,
+      "items": 7,
       "sp": 7.0,
       "done": 1.0,
       "closed": 1,
       "wip": 5,
-      "spill": 2
+      "spill": 1
     },
     {
       "team": "Falcons",
@@ -8018,12 +8018,12 @@
       "member": "Akca, Reyhan",
       "sprint": "S14",
       "sn": 14,
-      "items": 3,
+      "items": 2,
       "sp": 10.0,
       "done": 0.0,
       "closed": 0,
       "wip": 2,
-      "spill": 1
+      "spill": 0
     },
     {
       "team": "Titans",
@@ -8043,7 +8043,7 @@
       "sprint": "S14",
       "sn": 14,
       "items": 12,
-      "sp": 10.0,
+      "sp": 12.0,
       "done": 0.0,
       "closed": 2,
       "wip": 5,
@@ -8318,12 +8318,12 @@
       "member": "Tankala, Harsha Vardhan",
       "sprint": "S14",
       "sn": 14,
-      "items": 3,
+      "items": 4,
       "sp": 0.0,
       "done": 0.0,
       "closed": 1,
       "wip": 2,
-      "spill": 0
+      "spill": 1
     },
     {
       "team": "Titans",
