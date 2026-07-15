@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-14T18:38:03.987384+00:00",
+  "lastRefreshed": "2026-07-15T03:43:08.472710+00:00",
   "sprints": [
     {
       "n": 1,
@@ -193,8 +193,8 @@
       "dd": 0.5118,
       "cr": 1.0,
       "pi": 1.0,
-      "cy": 12.8,
-      "ld": 14.5,
+      "cy": 13.0,
+      "ld": 15.0,
       "wip": 0,
       "us": 62,
       "bc": 65
@@ -211,8 +211,8 @@
       "dd": 0.3308,
       "cr": 1.0,
       "pi": 1.0,
-      "cy": 16.3,
-      "ld": 19.4,
+      "cy": 17.7,
+      "ld": 20.1,
       "wip": 0,
       "us": 88,
       "bc": 43
@@ -229,7 +229,7 @@
       "dd": 0.3824,
       "cr": 1.0,
       "pi": 1.0,
-      "cy": 8.6,
+      "cy": 9.3,
       "ld": 16.5,
       "wip": 0,
       "us": 84,
@@ -240,56 +240,56 @@
       "id": "S14",
       "q": "Q3",
       "label": "Jul01",
-      "vel": 232.0,
+      "vel": 240.0,
       "comm": 840.0,
-      "thru": 95,
+      "thru": 102,
       "bugs": 143,
-      "dd": 0.4316,
-      "cr": 0.2762,
-      "pi": 0.2762,
-      "cy": 8.0,
-      "ld": 12.1,
-      "wip": 188,
+      "dd": 0.451,
+      "cr": 0.2857,
+      "pi": 0.2857,
+      "cy": 15.2,
+      "ld": 14.6,
+      "wip": 181,
       "us": 201,
-      "bc": 41
+      "bc": 46
     }
   ],
   "current": {},
   "teams": [
     {
       "name": "Falcons",
-      "vel": 1500.5,
+      "vel": 1508.5,
       "comm": 1689.5,
-      "thru": 526,
+      "thru": 531,
       "bugs": 440,
-      "bugsClosed": 228,
-      "wip": 87,
-      "cr": 0.8881,
+      "bugsClosed": 231,
+      "wip": 83,
+      "cr": 0.8929,
       "us": 430,
-      "stale": 322,
+      "stale": 324,
       "color": "#1D4ED8"
     },
     {
       "name": "Titans",
       "vel": 1184.5,
       "comm": 1463.5,
-      "thru": 356,
+      "thru": 357,
       "bugs": 93,
-      "bugsClosed": 77,
-      "wip": 61,
+      "bugsClosed": 78,
+      "wip": 60,
       "cr": 0.8094,
       "us": 397,
-      "stale": 115,
+      "stale": 116,
       "color": "#7C3AED"
     },
     {
       "name": "Dragons",
       "vel": 991.5,
       "comm": 1115.5,
-      "thru": 327,
+      "thru": 328,
       "bugs": 116,
-      "bugsClosed": 98,
-      "wip": 37,
+      "bugsClosed": 99,
+      "wip": 36,
       "cr": 0.8888,
       "us": 269,
       "stale": 40,
@@ -310,16 +310,16 @@
     }
   ],
   "global": {
-    "totalVel": 4140.0,
+    "totalVel": 4148.0,
     "totalComm": 4801.0,
-    "totalThru": 1426,
+    "totalThru": 1433,
     "totalBugs": 726,
-    "totalWIP": 205,
-    "cr": 0.8623,
-    "stale": 530,
+    "totalWIP": 199,
+    "cr": 0.864,
+    "stale": 533,
     "items": 2015,
-    "l5": 1716.5,
-    "avgSP": 2.9,
+    "l5": 1724.5,
+    "avgSP": 2.89,
     "us": 1289
   },
   "memberStats": [
@@ -2035,8 +2035,8 @@
       "items": 1,
       "sp": 0.0,
       "done": 0.0,
-      "closed": 0,
-      "wip": 1,
+      "closed": 1,
+      "wip": 0,
       "spill": 0
     },
     {
@@ -4744,12 +4744,12 @@
       "member": "Bhavani Prasad Lokarey",
       "sprint": "S14",
       "sn": 14,
-      "items": 1,
+      "items": 3,
       "sp": 5.0,
       "done": 5.0,
       "closed": 1,
       "wip": 0,
-      "spill": 0
+      "spill": 2
     },
     {
       "team": "Falcons",
@@ -4770,9 +4770,9 @@
       "sn": 14,
       "items": 4,
       "sp": 16.0,
-      "done": 0.0,
-      "closed": 0,
-      "wip": 4,
+      "done": 5.0,
+      "closed": 1,
+      "wip": 3,
       "spill": 0
     },
     {
@@ -4840,11 +4840,11 @@
       "member": "Katroju, Siddartha",
       "sprint": "S14",
       "sn": 14,
-      "items": 4,
-      "sp": 8.0,
+      "items": 3,
+      "sp": 5.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 4,
+      "wip": 3,
       "spill": 0
     },
     {
@@ -4879,8 +4879,8 @@
       "items": 15,
       "sp": 35.0,
       "done": 10.0,
-      "closed": 2,
-      "wip": 12,
+      "closed": 3,
+      "wip": 11,
       "spill": 1
     },
     {
@@ -4924,10 +4924,10 @@
       "member": "Nigam, Harshita",
       "sprint": "S14",
       "sn": 14,
-      "items": 9,
-      "sp": 39.0,
-      "done": 27.0,
-      "closed": 6,
+      "items": 10,
+      "sp": 42.0,
+      "done": 30.0,
+      "closed": 7,
       "wip": 2,
       "spill": 1
     },
@@ -5023,8 +5023,8 @@
       "items": 5,
       "sp": 7.0,
       "done": 7.0,
-      "closed": 3,
-      "wip": 2,
+      "closed": 5,
+      "wip": 0,
       "spill": 0
     },
     {
@@ -5080,11 +5080,11 @@
       "member": "Lara, Mariana (TR Technology)",
       "sprint": "S15",
       "sn": 15,
-      "items": 1,
+      "items": 2,
       "sp": 0.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 1,
+      "wip": 2,
       "spill": 0
     },
     {
@@ -8407,8 +8407,8 @@
       "items": 2,
       "sp": 0.0,
       "done": 0.0,
-      "closed": 1,
-      "wip": 1,
+      "closed": 2,
+      "wip": 0,
       "spill": 0
     },
     {
