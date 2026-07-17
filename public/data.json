@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-17T14:30:26.447635+00:00",
+  "lastRefreshed": "2026-07-17T18:33:31.121456+00:00",
   "sprints": [
     {
       "n": 1,
@@ -243,7 +243,7 @@
       "vel": 324.0,
       "comm": 324.0,
       "thru": 125,
-      "bugs": 52,
+      "bugs": 53,
       "dd": 0.416,
       "cr": 1.0,
       "pi": 1.0,
@@ -259,10 +259,10 @@
     "comm": 649.0,
     "remSP": 833.0,
     "thru": 15,
-    "items": 314,
-    "bugs": 115,
-    "wip": 202,
-    "open": 299,
+    "items": 317,
+    "bugs": 118,
+    "wip": 203,
+    "open": 302,
     "stale": 238,
     "cr": 0.077,
     "pi": 0.077,
@@ -290,9 +290,9 @@
       "vel": 1214.5,
       "comm": 1483.5,
       "thru": 369,
-      "bugs": 105,
+      "bugs": 109,
       "bugsClosed": 79,
-      "wip": 61,
+      "wip": 62,
       "cr": 0.8187,
       "us": 398,
       "stale": 104,
@@ -329,11 +329,11 @@
     "totalVel": 4277.0,
     "totalComm": 4876.0,
     "totalThru": 1470,
-    "totalBugs": 753,
-    "totalWIP": 203,
+    "totalBugs": 757,
+    "totalWIP": 204,
     "cr": 0.8772,
     "stale": 488,
-    "items": 2050,
+    "items": 2054,
     "l5": 1447.5,
     "avgSP": 2.91,
     "us": 1297
@@ -2021,18 +2021,6 @@
     },
     {
       "team": "Dragons",
-      "member": "Chura, Katsiaryna",
-      "sprint": "S15",
-      "sn": 15,
-      "items": 1,
-      "sp": 0.0,
-      "done": 0.0,
-      "closed": 0,
-      "wip": 1,
-      "spill": 0
-    },
-    {
-      "team": "Dragons",
       "member": "Ganesan, Nirubaa (TR Technology)",
       "sprint": "S15",
       "sn": 15,
@@ -2053,6 +2041,18 @@
       "done": 0.0,
       "closed": 0,
       "wip": 2,
+      "spill": 0
+    },
+    {
+      "team": "Dragons",
+      "member": "Irabatti, Sunil",
+      "sprint": "S15",
+      "sn": 15,
+      "items": 1,
+      "sp": 0.0,
+      "done": 0.0,
+      "closed": 0,
+      "wip": 1,
       "spill": 0
     },
     {
@@ -8624,11 +8624,11 @@
       "member": "Katroju, Siddartha",
       "sprint": "S15",
       "sn": 15,
-      "items": 3,
+      "items": 4,
       "sp": 16.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 2,
+      "wip": 3,
       "spill": 1
     },
     {
@@ -8666,6 +8666,18 @@
       "closed": 0,
       "wip": 1,
       "spill": 3
+    },
+    {
+      "team": "Titans",
+      "member": "Mishra, Brijendra",
+      "sprint": "S15",
+      "sn": 15,
+      "items": 1,
+      "sp": 0.0,
+      "done": 0.0,
+      "closed": 0,
+      "wip": 1,
+      "spill": 0
     },
     {
       "team": "Titans",
@@ -8720,12 +8732,12 @@
       "member": "Rajendran, Avishkar",
       "sprint": "S15",
       "sn": 15,
-      "items": 3,
+      "items": 4,
       "sp": 18.0,
       "done": 0.0,
       "closed": 0,
       "wip": 2,
-      "spill": 1
+      "spill": 2
     },
     {
       "team": "Titans",
@@ -8768,11 +8780,11 @@
       "member": "T C, Shabana Asmi (TR Technology)",
       "sprint": "S15",
       "sn": 15,
-      "items": 14,
+      "items": 13,
       "sp": 50.0,
       "done": 0.0,
       "closed": 1,
-      "wip": 4,
+      "wip": 3,
       "spill": 9
     },
     {
