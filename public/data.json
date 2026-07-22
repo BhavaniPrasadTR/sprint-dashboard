@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-21T18:48:33.175537+00:00",
+  "lastRefreshed": "2026-07-22T03:54:59.660381+00:00",
   "sprints": [
     {
       "n": 1,
@@ -232,7 +232,7 @@
       "cy": 9.9,
       "ld": 17.0,
       "wip": 0,
-      "us": 85,
+      "us": 84,
       "bc": 52
     },
     {
@@ -257,16 +257,16 @@
   "current": {
     "vel": 83.0,
     "comm": 697.0,
-    "remSP": 840.0,
+    "remSP": 843.0,
     "thru": 40,
-    "items": 353,
-    "bugs": 152,
-    "wip": 212,
-    "open": 313,
-    "stale": 247,
+    "items": 361,
+    "bugs": 154,
+    "wip": 213,
+    "open": 321,
+    "stale": 257,
     "cr": 0.1191,
     "pi": 0.1191,
-    "us": 201,
+    "us": 207,
     "bc": 24,
     "dd": 0.6,
     "daysLeft": 7
@@ -277,12 +277,12 @@
       "vel": 1586.5,
       "comm": 1724.5,
       "thru": 559,
-      "bugs": 459,
+      "bugs": 461,
       "bugsClosed": 253,
-      "wip": 79,
+      "wip": 80,
       "cr": 0.92,
       "us": 431,
-      "stale": 304,
+      "stale": 312,
       "color": "#1D4ED8"
     },
     {
@@ -295,7 +295,7 @@
       "wip": 68,
       "cr": 0.8108,
       "us": 399,
-      "stale": 114,
+      "stale": 121,
       "color": "#7C3AED"
     },
     {
@@ -307,8 +307,8 @@
       "bugsClosed": 105,
       "wip": 41,
       "cr": 0.8993,
-      "us": 273,
-      "stale": 32,
+      "us": 278,
+      "stale": 33,
       "color": "#0891B2"
     },
     {
@@ -329,14 +329,14 @@
     "totalVel": 4310.0,
     "totalComm": 4929.0,
     "totalThru": 1497,
-    "totalBugs": 793,
-    "totalWIP": 214,
+    "totalBugs": 795,
+    "totalWIP": 215,
     "cr": 0.8744,
-    "stale": 503,
-    "items": 2092,
+    "stale": 519,
+    "items": 2099,
     "l5": 1480.5,
     "avgSP": 2.88,
-    "us": 1299
+    "us": 1304
   },
   "memberStats": [
     {
@@ -2108,12 +2108,12 @@
       "member": "Mishra, Brijendra",
       "sprint": "S15",
       "sn": 15,
-      "items": 10,
-      "sp": 34.0,
+      "items": 11,
+      "sp": 37.0,
       "done": 17.0,
       "closed": 5,
       "wip": 4,
-      "spill": 1
+      "spill": 2
     },
     {
       "team": "Dragons",
@@ -5144,12 +5144,24 @@
       "member": "Linares, Noe (TR Technology)",
       "sprint": "S15",
       "sn": 15,
-      "items": 7,
+      "items": 8,
       "sp": 10.0,
       "done": 0.0,
       "closed": 0,
       "wip": 3,
-      "spill": 4
+      "spill": 5
+    },
+    {
+      "team": "Falcons",
+      "member": "Lopez, Sergio (TR Technology)",
+      "sprint": "S15",
+      "sn": 15,
+      "items": 1,
+      "sp": 0.0,
+      "done": 0.0,
+      "closed": 0,
+      "wip": 1,
+      "spill": 0
     },
     {
       "team": "Falcons",
