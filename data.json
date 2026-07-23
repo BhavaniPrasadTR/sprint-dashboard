@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-22T18:40:08.895654+00:00",
+  "lastRefreshed": "2026-07-23T03:51:37.417343+00:00",
   "sprints": [
     {
       "n": 1,
@@ -256,16 +256,16 @@
   ],
   "current": {
     "vel": 103.0,
-    "comm": 707.0,
-    "remSP": 857.0,
+    "comm": 710.0,
+    "remSP": 860.0,
     "thru": 47,
     "items": 366,
     "bugs": 155,
     "wip": 211,
     "open": 318,
-    "stale": 253,
-    "cr": 0.1457,
-    "pi": 0.1457,
+    "stale": 264,
+    "cr": 0.1451,
+    "pi": 0.1451,
     "us": 211,
     "bc": 29,
     "dd": 0.617,
@@ -275,14 +275,14 @@
     {
       "name": "Falcons",
       "vel": 1593.5,
-      "comm": 1721.5,
+      "comm": 1724.5,
       "thru": 563,
       "bugs": 461,
       "bugsClosed": 257,
       "wip": 76,
-      "cr": 0.9256,
+      "cr": 0.924,
       "us": 434,
-      "stale": 310,
+      "stale": 313,
       "color": "#1D4ED8"
     },
     {
@@ -295,7 +295,7 @@
       "wip": 66,
       "cr": 0.8189,
       "us": 399,
-      "stale": 119,
+      "stale": 125,
       "color": "#7C3AED"
     },
     {
@@ -308,7 +308,7 @@
       "wip": 44,
       "cr": 0.8938,
       "us": 279,
-      "stale": 33,
+      "stale": 36,
       "color": "#0891B2"
     },
     {
@@ -327,12 +327,12 @@
   ],
   "global": {
     "totalVel": 4330.0,
-    "totalComm": 4934.0,
+    "totalComm": 4937.0,
     "totalThru": 1504,
     "totalBugs": 796,
     "totalWIP": 212,
-    "cr": 0.8776,
-    "stale": 515,
+    "cr": 0.8771,
+    "stale": 527,
     "items": 2104,
     "l5": 1500.5,
     "avgSP": 2.88,
@@ -5156,11 +5156,11 @@
       "member": "Lara, Mariana (TR Technology)",
       "sprint": "S15",
       "sn": 15,
-      "items": 12,
-      "sp": 23.0,
+      "items": 11,
+      "sp": 20.0,
       "done": 8.0,
       "closed": 2,
-      "wip": 9,
+      "wip": 8,
       "spill": 1
     },
     {
@@ -5181,7 +5181,7 @@
       "sprint": "S15",
       "sn": 15,
       "items": 1,
-      "sp": 0.0,
+      "sp": 3.0,
       "done": 0.0,
       "closed": 0,
       "wip": 1,
@@ -5288,11 +5288,11 @@
       "member": "Vempati, Krishna Chaitanya (TR Technology)",
       "sprint": "S15",
       "sn": 15,
-      "items": 2,
-      "sp": 5.0,
+      "items": 3,
+      "sp": 8.0,
       "done": 0.0,
       "closed": 0,
-      "wip": 1,
+      "wip": 2,
       "spill": 1
     },
     {
