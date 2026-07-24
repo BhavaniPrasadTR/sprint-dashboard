@@ -1,5 +1,5 @@
 {
-  "lastRefreshed": "2026-07-23T18:44:48.461838+00:00",
+  "lastRefreshed": "2026-07-24T03:51:39.334160+00:00",
   "sprints": [
     {
       "n": 1,
@@ -259,11 +259,11 @@
     "comm": 715.0,
     "remSP": 913.0,
     "thru": 53,
-    "items": 388,
-    "bugs": 158,
+    "items": 389,
+    "bugs": 159,
     "wip": 211,
-    "open": 334,
-    "stale": 257,
+    "open": 335,
+    "stale": 260,
     "cr": 0.1524,
     "pi": 0.1524,
     "us": 230,
@@ -277,12 +277,12 @@
       "vel": 1598.5,
       "comm": 1727.5,
       "thru": 564,
-      "bugs": 462,
+      "bugs": 463,
       "bugsClosed": 257,
       "wip": 76,
       "cr": 0.9253,
       "us": 440,
-      "stale": 312,
+      "stale": 314,
       "color": "#1D4ED8"
     },
     {
@@ -295,7 +295,7 @@
       "wip": 66,
       "cr": 0.8178,
       "us": 405,
-      "stale": 120,
+      "stale": 123,
       "color": "#7C3AED"
     },
     {
@@ -329,11 +329,11 @@
     "totalVel": 4336.0,
     "totalComm": 4942.0,
     "totalThru": 1510,
-    "totalBugs": 799,
+    "totalBugs": 800,
     "totalWIP": 212,
     "cr": 0.8774,
-    "stale": 520,
-    "items": 2129,
+    "stale": 525,
+    "items": 2130,
     "l5": 1506.5,
     "avgSP": 2.87,
     "us": 1330
